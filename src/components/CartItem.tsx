@@ -1,12 +1,12 @@
 import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { server } from "../redux/store";
-import { CartItem } from "../types/types";
+import { CartItem as CartItemType } from "../types/types";
 
 type cartItemProps = {
-    cartItem: CartItem;
-    incrementHandler: (cartItem: CartItem) => void;
-    decrementHandler: (cartItem: CartItem) => void;
+    cartItem: CartItemType;
+    incrementHandler: (cartItem: CartItemType) => void;
+    decrementHandler: (cartItem: CartItemType) => void;
     removeHandler: (id: string) => void;
 }
 

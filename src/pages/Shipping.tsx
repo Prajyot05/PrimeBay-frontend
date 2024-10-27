@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { saveShippingInfo } from "../redux/reducer/cartReducer";
 
 function Shipping() {
-    const {cartItems, subTotal, tax, total, shippingCharges, discount} = useSelector((state: RootState) => state.cartReducer);
+    const {cartItems, total} = useSelector((state: RootState) => state.cartReducer);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();

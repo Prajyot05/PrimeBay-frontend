@@ -16,9 +16,16 @@ export const store = configureStore({
         [dashboardAPI.reducerPath]: dashboardAPI.reducer,
         [userReducer.name]: userReducer.reducer,
         [cartReducer.name]: cartReducer.reducer
+        // user: userReducer.reducer,
+        // cart: cartReducer.reducer
     },
-    middleware: (mid) => [...mid(), userAPI.middleware, productAPI.middleware, orderAPI.middleware, dashboardAPI.middleware]
-    // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(userAPI.middleware),
+    // middleware: (mid) => [...mid(), userAPI.middleware, productAPI.middleware, orderAPI.middleware, dashboardAPI.middleware]
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([
+                userAPI.middleware,
+                productAPI.middleware,
+                orderAPI.middleware,
+                dashboardAPI.middleware
+            ]),
     // devTools: process.env.NODE_ENV !== 'production',
 });
 
