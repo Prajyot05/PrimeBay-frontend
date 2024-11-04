@@ -1,4 +1,4 @@
-import { Bar, CartItem, Line, Order, Pie, Product, ShippingInfo, Stats, User } from "./types";
+import { Bar, CartItem, CouponType, Line, Order, Pie, Product, Review, ShippingInfo, Stats, User } from "./types";
 
 export type CustomError = {
     status: number;
@@ -26,6 +26,11 @@ export type UserResponse = {
 export type AllProductsResponse = {
     success: boolean;
     products: Product[];
+}
+
+export type AllReviewsResponse = {
+    success: boolean;
+    reviews: Review[];
 }
 
 export type CategoriesResponse = {
@@ -80,6 +85,18 @@ export type LineResponse = {
     charts: Line;
 }
 
+export type NewReviewRequest = {
+    rating: number;
+    comment: string;
+    userId?: string;
+    productId: string;
+}
+
+export type DeleteReviewRequest = {
+    reviewId: string;
+    userId?: string;
+}
+
 export type NewProductRequest = {
     id: string;
     formData: FormData;
@@ -120,4 +137,14 @@ export type DeleteOrderRequest = {
 export type DeleteUserRequest = {
     userId: string;
     adminUserId: string;
-}
+};
+
+export type AllDiscountResponse = {
+    success: boolean;
+    coupons: CouponType[];
+};
+
+export type SingleDiscountResponse = {
+    success: boolean;
+    coupon: CouponType;
+};

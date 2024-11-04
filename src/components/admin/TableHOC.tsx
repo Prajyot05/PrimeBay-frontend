@@ -46,10 +46,10 @@ function TableHOC<T extends Object>(
 
         <table className="table" {...getTableProps()}>
           <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+            {headerGroups.map((headerGroup, rowIndex) => (
+              <tr {...headerGroup.getHeaderGroupProps()} key={`header-group-${rowIndex}`}>
+                {headerGroup.headers.map((column, colIndex) => (
+                  <th {...column.getHeaderProps(column.getSortByToggleProps())} key={`column-${colIndex}`}>
                     {column.render("Header")}
                     {column.isSorted && (
                       <span>

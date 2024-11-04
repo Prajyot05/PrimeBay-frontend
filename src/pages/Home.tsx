@@ -28,19 +28,21 @@ function Home() {
       </h1>
 
       <main>
-        { isLoading ? <Skeleton width='80vw' /> :
-          data?.products.map((i) => (
-            <ProductCard 
-              key={i._id}
-              productId={i._id} 
-              name={i.name} 
-              price={i.price} 
-              stock={i.stock} 
-              photo={i.photo} 
-              handler={addToCartHandler} 
-            />
-          ))
-        }
+        <div className='latest-products-container'>
+          { isLoading ? <Skeleton width='80vw' /> :
+            data?.products.map((i) => (
+              <ProductCard 
+                key={i._id}
+                productId={i._id} 
+                name={i.name} 
+                price={i.price} 
+                stock={i.stock} 
+                photos={i.photos} 
+                handler={addToCartHandler} 
+              />
+            ))
+          }
+        </div>
       </main>
     </div>
   )

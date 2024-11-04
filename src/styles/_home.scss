@@ -34,6 +34,11 @@
     }
 }
 
+.latest-products-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .product-card{
     width: 18.75rem;
     // height: 25rem;
@@ -67,9 +72,10 @@
         left: 0;
         background-color: #11111125;
         @include flex;
-        button{
+        button, a{
             @include flex;
             @include square(3rem);
+            color: white;
             border-radius: 100%;
             border: none;
             background-color: $color3;

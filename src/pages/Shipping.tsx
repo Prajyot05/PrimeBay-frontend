@@ -8,7 +8,8 @@ import toast from "react-hot-toast";
 import { saveShippingInfo } from "../redux/reducer/cartReducer";
 
 function Shipping() {
-    const {cartItems, total} = useSelector((state: RootState) => state.cartReducer);
+    const {cartItems, coupon} = useSelector((state: RootState) => state.cartReducer);
+    const { user } = useSelector((state: RootState) => state.userReducer);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -27,9 +28,13 @@ function Shipping() {
         dispatch(saveShippingInfo(shippingInfo));
 
         try {
-            const {data} = await axios.post(`${server}/api/v1/payment/create`, {
-                amount: total
-            }, {
+            const {data} = await axios.post(`${server}/api/v1/payment/create?id=${user?._id}`, 
+            {
+                items: cartItems,
+                shippingInfo,
+                coupon,
+            }, 
+            {
                 headers: {
                     "Content-Type": "application/json"
                 }

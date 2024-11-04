@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { AllProductsResponse, CategoriesResponse, DeleteProductRequest, MessageResponse, NewProductRequest, ProductResponse, SearchProductsRequest, SearchProductsResponse, UpdateProductRequest } from "../../types/api.types";
+import { AllProductsResponse, AllReviewsResponse, CategoriesResponse, DeleteProductRequest, DeleteReviewRequest, MessageResponse, NewProductRequest, NewReviewRequest, ProductResponse, SearchProductsRequest, SearchProductsResponse, UpdateProductRequest } from "../../types/api.types";
 
 export const productAPI = createApi({
     reducerPath: "productApi",
@@ -32,6 +32,28 @@ export const productAPI = createApi({
             query: (id) => id,
             providesTags: ["product"]
         }),
+        allReviewsOfProduct: builder.query<AllReviewsResponse, string>({
+            query: (productId) => `reviews/${productId}`,
+            providesTags: ["product"]
+        }),
+        newReview: builder.mutation<MessageResponse, NewReviewRequest>({
+            query: ({comment, rating, userId, productId}) => ({
+                url: `review/new/${productId}?id=${userId}`,
+                method: "POST",
+                body: {comment, rating},
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }),
+            invalidatesTags:["product"]
+        }),
+        deleteReview: builder.mutation<MessageResponse, DeleteReviewRequest>({
+            query: ({userId, reviewId}) => ({ 
+                url: `review/${reviewId}?id=${userId}`,
+                method: "DELETE"
+            }),
+            invalidatesTags:["product"]
+        }),
         newProduct: builder.mutation<MessageResponse, NewProductRequest>({
             query: ({formData, id}) => ({
                 url: `new?id=${id}`,
@@ -61,8 +83,11 @@ export const productAPI = createApi({
 export const {
     useLatestProductsQuery, 
     useAllProductsQuery, 
+    useAllReviewsOfProductQuery,
+    useDeleteReviewMutation,
     useCategoriesQuery, 
     useSearchProductsQuery,
+    useNewReviewMutation,
     useProductDetailsQuery,
     useNewProductMutation,
     useUpdateProductMutation,
