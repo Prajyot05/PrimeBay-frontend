@@ -40,7 +40,7 @@ function Header({user}:PropsType) {
               <button onClick={() => setIsOpen(prev => !prev)}>
                 <FaUser />
               </button>
-              <dialog open={isOpen}>
+              <dialog style={{zIndex: '999'}} open={isOpen}>
                 <div>
                   {
                     user.role === "admin" && (

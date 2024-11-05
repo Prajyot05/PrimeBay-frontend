@@ -6,6 +6,7 @@ import { Skeleton } from '../components/Loader.tsx';
 import { CartItem } from '../types/types.ts';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/reducer/cartReducer.ts';
+import HomeCarousel from '../components/HomeCarousel.tsx';
 
 function Home() {
   const { data, isError, isLoading } = useLatestProductsQuery("");
@@ -22,7 +23,9 @@ function Home() {
 
   return (
     <div className='home'>
-      <section></section>
+      <section>
+        <HomeCarousel />
+      </section>
       <h1>Latest Products
         <Link to={"/search"} className='findmore'>More</Link>
       </h1>
