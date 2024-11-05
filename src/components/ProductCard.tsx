@@ -1,5 +1,4 @@
 import { FaExpandAlt, FaPlus } from "react-icons/fa";
-import { server } from "../redux/store";
 import { CartItem } from "../types/types";
 import { Link } from "react-router-dom";
 import { transformImage } from "../utils/features";
