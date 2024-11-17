@@ -8,7 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNewOrderMutation } from '../redux/api/orderAPI';
 import { resetCart } from '../redux/reducer/cartReducer';
 import { responseToast } from '../utils/features';
-import { RootState } from '../redux/store';
+import { RootState, server } from '../redux/store';
+import axios from 'axios';
+import { load } from '@cashfreepayments/cashfree-js';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
@@ -19,9 +21,44 @@ const CheckoutForm = () => {
     const navigate = useNavigate();
     const [newOrder] = useNewOrderMutation();
 
+    let cashfree: any;
+
+    let initializeSDK = async function () {
+        cashfree = await load({
+            mode: 'sandbox'
+        });
+    }
+    
+    initializeSDK();
+
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
+    const [orderId, setOrderId] = useState<string>("");
     const {user} = useSelector((state: RootState) => state.userReducer);
     const {shippingInfo, cartItems, subTotal, tax, discount, shippingCharges, total} = useSelector((state: RootState) => state.cartReducer);
+
+    const getSessionId = async () => {
+        try {
+            const body = {
+            shippingInfo,
+            orderItems: cartItems,
+            subTotal,
+            tax,
+            discount,
+            shippingCharges,
+            total,
+            user
+            };
+    
+            const res = await axios.post(`${server}/api/v1/payment/sessionId`, body);
+    
+            console.log('Session ID response: ', res.data);
+            setOrderId(res.data.order_id);
+
+            return res.data.payment_session_id;
+        } catch (error) {
+            console.error('Cashfree Checkout Error: ', error);
+        }
+    };
 
     const submitHandler = async (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -59,13 +96,63 @@ const CheckoutForm = () => {
         setIsProcessing(false);
     };
 
+    const verifyCashfreePayment = async (orderId: string) => {
+        try {
+            const orderData: NewOrderRequest = {
+                shippingInfo,
+                orderItems: cartItems, 
+                subTotal, 
+                tax, 
+                discount, 
+                shippingCharges, 
+                total,
+                user: user?._id!
+            };
+
+            let res = await axios.post(`${server}/api/v1/payment/verify`, {orderId});
+
+            if(res && res.data){
+                const res = await newOrder(orderData);
+                dispatch(resetCart());
+                responseToast(res, navigate, "/orders");
+            }
+        } catch (error) {
+            console.log('Verify Cashfree Payment Error: ', error);
+        }
+    }
+
+    const createCashfreeOrder = async () => {
+        try {
+            let sessionId = await getSessionId();
+            let checkoutOptions = {
+                paymentSessionId: sessionId,
+                redirectTarget: "_modal", // If we don't put this, we'll be redirected to cashfree website
+            }
+            cashfree.checkout(checkoutOptions).then((res: any) => {
+                if(!res.error) console.log("Cashfree payment initiated");
+                else return toast.error("Cashfree payment failed");
+                verifyCashfreePayment(orderId);
+            });
+        } catch (error) {
+            console.log('Create Cashfree Order Error: ', error);
+        }
+    };
+
     return <div className='checkout-container'>
-        <form onSubmit={submitHandler} action="">
-            <PaymentElement />
-            <button type='submit' disabled={isProcessing}>
-                {isProcessing ? "Processing...." : "Pay"}
+        <div className="stripe-container">
+            <form onSubmit={submitHandler} action="">
+                <PaymentElement />
+                <button type='submit' disabled={isProcessing}>
+                    {isProcessing ? "Processing...." : "Pay using Stripe"}
+                </button>
+            </form>
+        </div>
+        <h1 style={{marginTop: '2rem', marginBottom: '2rem', fontSize: '2rem', textAlign: 'center'}}>OR</h1>
+        <div className='cashfree-container'>
+            <button onClick={createCashfreeOrder} disabled={isProcessing}>
+                {isProcessing ? "Processing...." : "Pay using Cashfree"}
             </button>
-        </form>
+        </div>
     </div>
 };
 
