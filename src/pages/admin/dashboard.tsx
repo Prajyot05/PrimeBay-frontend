@@ -32,12 +32,12 @@ const Dashboard = () => {
         {
           isLoading ? <Skeleton length={30} /> : (
           <>
-            <div className="bar">
+            {/* <div className="bar">
               <BsSearch />
               <input type="text" placeholder="Search for data, users, docs" />
               <FaRegBell />
               <img src={user?.photo || userImg} alt="User" />
-            </div>
+            </div> */}
 
             <section className="widget-container">
               <WidgetItem

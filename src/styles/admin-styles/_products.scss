@@ -2,7 +2,14 @@
   background-color: white;
   padding: 2rem;
   overflow: auto;
-  @include square(100%);
+  max-width: 100vw;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.admin-table-container{
+  width: 100%;
+  overflow-x: auto;
 }
 
 .create-product-btn {

@@ -44,42 +44,44 @@ function TableHOC<T extends Object>(
       <div className={containerClassname}>
         <h2 className="heading">{heading}</h2>
 
-        <table className="table" {...getTableProps()}>
-          <thead>
-            {headerGroups.map((headerGroup, rowIndex) => (
-              <tr {...headerGroup.getHeaderGroupProps()} key={`header-group-${rowIndex}`}>
-                {headerGroup.headers.map((column, colIndex) => (
-                  <th {...column.getHeaderProps(column.getSortByToggleProps())} key={`column-${colIndex}`}>
-                    {column.render("Header")}
-                    {column.isSorted && (
-                      <span>
-                        {" "}
-                        {column.isSortedDesc ? (
-                          <AiOutlineSortDescending />
-                        ) : (
-                          <AiOutlineSortAscending />
-                        )}
-                      </span>
-                    )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {page.map((row) => {
-              prepareRow(row);
-
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+        <div className="admin-table-container">
+          <table className="table" {...getTableProps()}>
+            <thead>
+              {headerGroups.map((headerGroup, rowIndex) => (
+                <tr {...headerGroup.getHeaderGroupProps()} key={`header-group-${rowIndex}`}>
+                  {headerGroup.headers.map((column, colIndex) => (
+                    <th {...column.getHeaderProps(column.getSortByToggleProps())} key={`column-${colIndex}`}>
+                      {column.render("Header")}
+                      {column.isSorted && (
+                        <span>
+                          {" "}
+                          {column.isSortedDesc ? (
+                            <AiOutlineSortDescending />
+                          ) : (
+                            <AiOutlineSortAscending />
+                          )}
+                        </span>
+                      )}
+                    </th>
                   ))}
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
+              ))}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+              {page.map((row) => {
+                prepareRow(row);
+
+                return (
+                  <tr {...row.getRowProps()}>
+                    {row.cells.map((cell) => (
+                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
 
         {showPagination && (
           <div className="table-pagination">

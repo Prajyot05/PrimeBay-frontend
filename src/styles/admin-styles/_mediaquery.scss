@@ -165,6 +165,12 @@
 }
 
 @media screen and (width<= 600px) {
+  .header-left{
+    h1{
+      display: none;
+    }
+  }
+
   .product-details {
     > main {
       flex-direction: column;
