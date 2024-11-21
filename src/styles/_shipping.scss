@@ -1,58 +1,177 @@
-.shipping{
-    @include flex;
-    .back-btn{
-        @include square(3.5rem);
-        background-color: $color2;
-        color: $color1;
-        @include flex;
-        position: fixed;
-        top: 7rem;
-        left: 10rem;
-        border-radius: 100%;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        @include baseShadow;
+// .shipping{
+//     @include flex;
+//     .back-btn{
+//         @include square(3.5rem);
+//         background-color: $color2;
+//         color: $color1;
+//         @include flex;
+//         position: fixed;
+//         top: 7rem;
+//         left: 10rem;
+//         border-radius: 100%;
+//         border: none;
+//         outline: none;
+//         cursor: pointer;
+//         @include baseShadow;
         
-        svg{
-            transition: translate ease 0.3s;
-            font-size: 1rem;
+//         svg{
+//             transition: translate ease 0.3s;
+//             font-size: 1rem;
+//         }
+//         &:hover svg{
+//             translate: -0.25rem;
+//         }
+//     }
+
+//     > form{
+//         max-width: 450px;
+//         width: 100%;
+//         @include flex(column, center, stretch, 2rem);
+//         padding: 2rem;
+
+//         > h1{
+//             @include heading(2px);
+//             margin: 1rem;
+//             text-align: center;
+//         }
+
+//         >input, > select{
+//             border: 1px solid rgba(31, 31, 31, 0.3);
+//             padding: 1rem;
+//             outline: none;
+//             font-size: 1rem;
+//             border-radius: 10px;
+//         }
+
+//         > button{
+//             @include btn(1rem, $color3, $color1);
+//             border-radius: 10px;
+//             font-size: 1rem;
+//             text-transform: uppercase;
+//             letter-spacing: 1px;
+//             transition: opacity ease 0.3s;
+//             &:hover{
+//                 opacity: 0.9;
+//             }
+//         }
+//     }
+// }
+
+.shipping {
+    @include flex;
+    padding: 2rem 1rem;
+  
+    .back-btn {
+      @include square(3.5rem);
+      background-color: $color2;
+      color: $color1;
+      @include flex;
+      position: fixed;
+      top: 7rem;
+      left: 10rem;
+      border-radius: 50%;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      z-index: 10;
+      
+      svg {
+        transition: transform 0.3s ease;
+        font-size: 1.25rem;
+      }
+  
+      &:hover {
+        background-color: darken($color2, 10%);
+        transform: translateY(-2px);
+  
+        svg {
+          transform: translateX(-0.25rem);
         }
-        &:hover svg{
-            translate: -0.25rem;
-        }
+      }
+  
+      @media (max-width: 768px) {
+        top: 1rem;
+        left: 1rem;
+        @include square(3rem);
+      }
     }
-
-    > form{
-        max-width: 450px;
-        width: 100%;
-        @include flex(column, center, stretch, 2rem);
-        padding: 2rem;
-
-        > h1{
-            @include heading(2px);
-            margin: 1rem;
-            text-align: center;
+  
+    > form {
+      max-width: 450px;
+      width: 100%;
+      @include flex(column, center, stretch, 1.5rem);
+      padding: 2rem;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+  
+      > h1 {
+        @include heading(2px);
+        margin: 0 0 1rem;
+        text-align: center;
+        color: $color2;
+        font-size: 2rem;
+      }
+  
+      > input,
+      > select {
+        border: 1px solid rgba(31, 31, 31, 0.2);
+        padding: 0.75rem 1rem;
+        outline: none;
+        font-size: 1rem;
+        border-radius: 8px;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  
+        &:focus {
+          border-color: $color3;
+          box-shadow: 0 0 0 2px rgba($color3, 0.1);
         }
-
-        >input, > select{
-            border: 1px solid rgba(31, 31, 31, 0.3);
-            padding: 1rem;
-            outline: none;
-            font-size: 1rem;
-            border-radius: 10px;
+      }
+  
+      > button {
+        @include btn(1rem, $color3, $color1);
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+  
+        &:hover {
+          background-color: darken($color3, 10%);
+          transform: translateY(-2px);
         }
-
-        > button{
-            @include btn(1rem, $color3, $color1);
-            border-radius: 10px;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: opacity ease 0.3s;
-            &:hover{
-                opacity: 0.9;
-            }
+  
+        &:active {
+          transform: translateY(0);
         }
+      }
     }
 }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .shipping > form {
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  @media (max-width: 480px) {
+    .shipping {
+      padding: 1rem;
+  
+      > form {
+        padding: 1.5rem;
+      }
+    }
+  }
