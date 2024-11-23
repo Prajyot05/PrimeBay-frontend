@@ -1,8 +1,15 @@
+import PacmanLoader from "react-spinners/PacmanLoader";
 
 function Loader() {
   return (
     <section className="loader">
-      <div></div>
+      {/* <div></div> */}
+      <PacmanLoader
+        color={'black'}
+        size={50}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
     </section>
   )
 }

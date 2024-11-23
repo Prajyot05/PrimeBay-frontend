@@ -37,7 +37,8 @@ function Home() {
               <ProductCard 
                 key={i._id}
                 productId={i._id} 
-                name={i.name} 
+                name={i.name}
+                category={i.category}
                 price={i.price} 
                 stock={i.stock} 
                 photos={i.photos} 

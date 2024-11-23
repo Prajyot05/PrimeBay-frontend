@@ -68,7 +68,8 @@ $color3: rgb(0, 104, 136);
 // Header
 .header{
     @include flex(row, space-between, stretch);
-    padding: 1rem 2rem;
+    padding: 0.5rem 2rem;
+    border-bottom: 1px solid #e0e0e08c;
     h1{
         letter-spacing: -1px;
     }
@@ -83,6 +84,7 @@ $color3: rgb(0, 104, 136);
     }
 
     button{
+        color: $color2;
         border: none;
         font-size: 1.3rem;
         cursor: pointer;

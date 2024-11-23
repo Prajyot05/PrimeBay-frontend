@@ -165,11 +165,16 @@
 }
 
 @media screen and (width<= 600px) {
-  .header-left{
-    h1{
+  .header-right{
+    a:nth-child(1) {
       display: none;
     }
   }
+  // .header-left{
+  //   h1{
+  //     display: none;
+  //   }
+  // }
 
   .product-details {
     > main {
