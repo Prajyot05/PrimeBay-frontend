@@ -49,12 +49,21 @@ const columns: Column<DataType>[] = [
 const Transaction = () => {
   const {user} = useSelector((state: RootState) => state.userReducer);
   const [rows, setRows] = useState<DataType[]>([]);
-  const {isLoading, data, isError, error} = useAllOrdersQuery(user?._id!);
+  const {isLoading, data, isError, error, refetch} = useAllOrdersQuery(user?._id!);
 
   if(isError) {
     const err = error as CustomError;
     toast.error(err.data.message);
   }
+
+  // Polling: Refetch every 5 minutes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetch();
+    }, 300000); // 300,000 ms = 5 minutes
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, [refetch]);
 
   useEffect(() => {
     if(data) setRows(data.orders.map((i) => ({

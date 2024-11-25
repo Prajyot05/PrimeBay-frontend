@@ -24,7 +24,8 @@ export const orderAPI = createApi({
         }),
         allOrders: builder.query<AllOrdersResponse, string>({
             query: (id) => (`all?id=${id}`),
-            providesTags: ["orders"]
+            providesTags: ["orders"],
+            // Automatically refetch every 5 minutes (300,000 ms)
         }),
         orderDetails: builder.query<OrderDetailsResponse, string>({
             query: (id) => id,
