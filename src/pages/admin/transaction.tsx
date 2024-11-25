@@ -50,30 +50,83 @@ const Transaction = () => {
   const {user} = useSelector((state: RootState) => state.userReducer);
   const [rows, setRows] = useState<DataType[]>([]);
   const {isLoading, data, isError, error, refetch} = useAllOrdersQuery(user?._id!);
+  const [soundCooldown, setSoundCooldown] = useState(false); // Throttle flag
+
+  const [numOfOrders, setNumOfOrders] = useState(0);
 
   if(isError) {
     const err = error as CustomError;
     toast.error(err.data.message);
   }
 
+  const playSound = () => {
+    if (!soundCooldown) {
+      setSoundCooldown(true);
+      const audio = new Audio("/notification.mp3");
+      audio.play();
+
+      // Reset the flag after 2 seconds
+      setTimeout(() => {
+        setSoundCooldown(false);
+      }, 2000);
+    }
+  };
+
   // Polling: Refetch every 5 minutes
   useEffect(() => {
     const interval = setInterval(() => {
       refetch();
-    }, 300000); // 300,000 ms = 5 minutes
+      console.log('refetched');
+    }, 10000); // 300,000 ms = 5 minutes
 
     return () => clearInterval(interval); // Cleanup on unmount
   }, [refetch]);
 
   useEffect(() => {
-    if(data) setRows(data.orders.map((i) => ({
-      user: i.user.name,
-      amount: i.total,
-      discount: i.discount,
-      quantity: i.orderItems.length,
-      status: <span className={i.status === "Processing" ? "red" : i.status === "Shipped" ? "green" : "purple"}>{i.status}</span>,
-      action: <Link to={`/admin/transaction/${i._id}`}>Manage</Link>
-    })));
+    if (data) {
+      const orders = data.orders;
+
+      // Update rows for the table
+      setRows(
+        orders.map((order) => ({
+          user: order.user.name,
+          amount: order.total,
+          discount: order.discount,
+          quantity: order.orderItems.length,
+          status: (
+            <span
+              className={
+                order.status === "Processing"
+                  ? "red"
+                  : order.status === "Shipped"
+                  ? "green"
+                  : "purple"
+              }
+            >
+              {order.status}
+            </span>
+          ),
+          action: <Link to={`/admin/transaction/${order._id}`}>Manage</Link>,
+        }))
+      );
+
+      // Check for new orders
+      if (orders.length > numOfOrders) {
+        const newOrders = orders.slice(numOfOrders);
+        console.log("NEW ORDERS: ", newOrders);
+        console.log("NUM OF ORDERS: ", numOfOrders);
+
+        // Toast and play sound for each new order
+        newOrders.forEach((order) => {
+          toast.success(`New order added by ${order.user.name}`);
+          playSound();
+        });
+
+        // Update the number of orders tracked
+        setNumOfOrders(orders.length);
+      }
+    }
+
   }, [data]);
 
   const Table = TableHOC<DataType>(
