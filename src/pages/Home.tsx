@@ -7,6 +7,7 @@ import { CartItem } from '../types/types.ts';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/reducer/cartReducer.ts';
 import HomeCarousel from '../components/HomeCarousel.tsx';
+import Footer from '../components/Footer.tsx';
 
 function Home() {
   const { data, isError, isLoading } = useLatestProductsQuery("");
@@ -47,6 +48,7 @@ function Home() {
             ))
           }
         </div>
+        <Footer />
       </main>
     </div>
   )
