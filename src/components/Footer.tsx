@@ -14,6 +14,10 @@ const Footer = () => {
             <h3>FSSAI License</h3>
             <a href="/6FSSAI License.pdf" target="_blank"><img src="/download.png" alt="" /></a>
         </div>
+        <div>
+            <h3>Terms and Conditions</h3>
+            <a href="/tnc.pdf" target="_blank"><img src="/download.png" alt="" /></a>
+        </div>
     </div>
   )
 }
