@@ -56,7 +56,7 @@ const Discount = () => {
         columns,
         rows,
         "dashboard-product-box",
-        "Products",
+        "Discount",
         rows.length > 6
     )();
 
