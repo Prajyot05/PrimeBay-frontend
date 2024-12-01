@@ -48,8 +48,10 @@ const CheckoutForm = () => {
             total,
             user
             };
+            console.log('body', body);
     
             const res = await axios.post(`${server}/api/v1/payment/sessionId`, body);
+            console.log('res', res);
     
             console.log('Session ID response: ', res.data);
             setOrderId(res.data.order_id);
@@ -123,6 +125,7 @@ const CheckoutForm = () => {
     }
 
     const createCashfreeOrder = async () => {
+        console.log('reached fn')
         try {
             let sessionId = await getSessionId();
             let checkoutOptions = {

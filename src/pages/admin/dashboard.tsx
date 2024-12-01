@@ -1,7 +1,6 @@
-import { BiMaleFemale } from "react-icons/bi";
 import { HiTrendingDown, HiTrendingUp } from "react-icons/hi";
 import AdminSidebar from "../../components/admin/AdminSidebar";
-import { BarChart, DoughnutChart } from "../../components/admin/Charts.tsx";
+import { BarChart } from "../../components/admin/Charts.tsx";
 import Table from "../../components/admin/DashboardTable.tsx";
 import { useStatsQuery } from "../../redux/api/dashboardAPI.ts";
 import { useSelector } from "react-redux";
