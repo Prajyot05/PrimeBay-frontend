@@ -133,7 +133,7 @@ const Transaction = () => {
     columns,
     rows,
     "dashboard-product-box",
-    "Transactions",
+    "Orders",
     rows.length > 6
   )();
   return (
