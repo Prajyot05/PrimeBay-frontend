@@ -119,6 +119,7 @@ const CheckoutForm = () => {
             console.log('ORDER ID: ', orderId);
 
             let res = await axios.post(`${server}/api/v1/payment/verify`, {orderId});
+            console.log("RES IN VERIFY: ", res);
 
             if(res && res.data){
                 const res = await newOrder(orderData);
