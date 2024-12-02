@@ -25,7 +25,7 @@ const CheckoutForm = () => {
 
     let initializeSDK = async function () {
         cashfree = await load({
-            mode: 'sandbox'
+            mode: 'production'
         });
     }
     
@@ -55,7 +55,7 @@ const CheckoutForm = () => {
     
             console.log('Session ID response: ', res.data);
             setOrderId(res.data.order_id);
-            console.log("ORDER ID: ", orderId);
+            console.log("ORDER ID: ", res.data.order_id);
 
             return res.data.payment_session_id;
         } catch (error) {
@@ -128,10 +128,12 @@ const CheckoutForm = () => {
         console.log('reached fn')
         try {
             let sessionId = await getSessionId();
+            console.log("SESSION ID: ", sessionId);
             let checkoutOptions = {
                 paymentSessionId: sessionId,
                 redirectTarget: "_modal", // If we don't put this, we'll be redirected to cashfree website
             }
+            console.log('CHECKOUT OPTIONS: ', checkoutOptions);
             cashfree.checkout(checkoutOptions).then((res: any) => {
                 if(!res.error) console.log("Cashfree payment initiated");
                 else return toast.error("Cashfree payment failed");
