@@ -55,7 +55,7 @@ const CheckoutForm = () => {
     
             console.log('Session ID response: ', res.data);
             setOrderId(res.data.order_id);
-            console.log("ORDER ID: ", res.data.order_id);
+            console.log("ORDER ID IN GET_SESSION_ID: ", res.data.order_id, orderId);
 
             return res.data.payment_session_id;
         } catch (error) {
