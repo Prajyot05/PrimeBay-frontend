@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./redux/api/userAPI";
 import { UserReducerInitialState } from "./types/reducer.types";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { SocketProvider } from "./components/SocketContext.tsx";
 
 const Home = lazy(() => import("./pages/Home"));
 const Search = lazy(() => import("./pages/Search"));
@@ -62,7 +61,6 @@ function App() {
   }, []);
 
   return loading ? <Loader /> : (
-    <SocketProvider>
       <Router>
         <Header user={user} />
         <Suspense fallback={<Loader />}>
@@ -130,7 +128,6 @@ function App() {
         </Suspense>
         <Toaster position="bottom-center" />
       </Router>
-    </SocketProvider>
   )
 }
 

@@ -10,7 +10,6 @@ import { CustomError } from "../../types/api.types";
 import toast from "react-hot-toast";
 import { Skeleton } from "../../components/Loader";
 import { responseToast } from "../../utils/features";
-import { useSocket } from "../../components/SocketContext";
 
 interface DataType {
   avatar: ReactElement;
@@ -75,29 +74,6 @@ const Customers = () => {
       action: <button onClick={() => deleteHandler(i._id)}><FaTrash /></button>
     })));
   }, [data]);
-
-  const { socket } = useSocket();
-
-  useEffect(() => {
-    if (!socket) return;
-
-    // Listen for transaction events
-    socket.on("transaction_completed", (data) => {
-      console.log("New transaction completed:", data);
-      alert(`Transaction completed by ${data.user} for ₹${data.amount}`);
-    });
-
-    socket.on("transaction_failed", (data) => {
-      console.log("Transaction failed:", data);
-      alert(`Transaction failed for order ${data.orderId}: ${data.status}`);
-    });
-
-    // Cleanup listeners on unmount
-    return () => {
-      socket.off("transaction_completed");
-      socket.off("transaction_failed");
-    };
-  }, [socket]);
 
   const Table = TableHOC<DataType>(
     columns,

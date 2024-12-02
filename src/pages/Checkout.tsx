@@ -112,8 +112,9 @@ const CheckoutForm = () => {
                 user: user?._id!
             };
 
+            console.log('ORDER ID: ', orderId);
+
             let res = await axios.post(`${server}/api/v1/payment/verify`, {orderId});
-            console.log('RES IN VERIFY: ', res)
 
             if(res && res.data){
                 const res = await newOrder(orderData);
@@ -134,10 +135,10 @@ const CheckoutForm = () => {
                 paymentSessionId: sessionId,
                 redirectTarget: "_modal", // If we don't put this, we'll be redirected to cashfree website
             }
-            console.log('CHECKOUT OPTIONS: ', checkoutOptions);
             cashfree.checkout(checkoutOptions).then((res: any) => {
                 if(!res.error) console.log("Cashfree payment initiated");
                 else return toast.error("Cashfree payment failed");
+                console.log('ORDER ID IN CHECKOUT FUNCTION: ', orderId);
                 verifyCashfreePayment(orderId);
             });
         } catch (error) {
