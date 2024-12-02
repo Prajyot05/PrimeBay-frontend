@@ -54,8 +54,10 @@ const CheckoutForm = () => {
             console.log('res', res);
     
             console.log('Session ID response: ', res.data);
-            setOrderId(res.data.order_id);
-            console.log("ORDER ID IN GET_SESSION_ID: ", res.data.order_id, orderId);
+            const newOrderId = res.data.order_id;
+            setOrderId(newOrderId);
+            console.log("NEW ORDER ID IN GET_SESSION_ID: ", newOrderId);
+            console.log("ORDER ID IN GET_SESSION_ID: ", orderId);
 
             return res.data.payment_session_id;
         } catch (error) {
@@ -131,6 +133,7 @@ const CheckoutForm = () => {
         try {
             let sessionId = await getSessionId();
             console.log("SESSION ID: ", sessionId);
+            console.log('ORDER ID IN CHECKOUT FUNCTION: ', orderId);
             let checkoutOptions = {
                 paymentSessionId: sessionId,
                 redirectTarget: "_modal", // If we don't put this, we'll be redirected to cashfree website
@@ -138,7 +141,6 @@ const CheckoutForm = () => {
             cashfree.checkout(checkoutOptions).then((res: any) => {
                 if(!res.error) console.log("Cashfree payment initiated");
                 else return toast.error("Cashfree payment failed");
-                console.log('ORDER ID IN CHECKOUT FUNCTION: ', orderId);
                 verifyCashfreePayment(orderId);
             });
         } catch (error) {
