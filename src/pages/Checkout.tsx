@@ -32,7 +32,7 @@ const CheckoutForm = () => {
     initializeSDK();
 
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
-    const [orderId, setOrderId] = useState<string>("");
+    // const [orderId, setOrderId] = useState<string>("");
     const {user} = useSelector((state: RootState) => state.userReducer);
     const {shippingInfo, cartItems, subTotal, tax, discount, shippingCharges, total} = useSelector((state: RootState) => state.cartReducer);
 
@@ -54,13 +54,14 @@ const CheckoutForm = () => {
             console.log('res', res);
     
             console.log('Session ID response: ', res.data);
-            const newOrderId = res.data.order_id;
-            const temp = newOrderId.toString();
-            setOrderId(temp);
-            console.log("NEW ORDER ID IN GET_SESSION_ID: ", temp);
-            console.log("ORDER ID IN GET_SESSION_ID: ", orderId);
+            // setOrderId(temp);
+            // console.log("NEW ORDER ID IN GET_SESSION_ID: ", temp);
+            // console.log("ORDER ID IN GET_SESSION_ID: ", orderId);
 
-            return res.data.payment_session_id;
+            return {
+                sessionId: res.data.payment_session_id,
+                orderId: res.data.order_id
+            };
         } catch (error) {
             console.error('Cashfree Checkout Error: ', error);
         }
@@ -132,17 +133,17 @@ const CheckoutForm = () => {
     const createCashfreeOrder = async () => {
         console.log('reached fn')
         try {
-            let sessionId = await getSessionId();
-            console.log("SESSION ID: ", sessionId);
-            console.log('ORDER ID IN CHECKOUT FUNCTION: ', orderId);
+            let sessionIdObj = await getSessionId();
+            console.log("SESSION ID: ", sessionIdObj?.sessionId);
+            console.log('ORDER ID IN CHECKOUT FUNCTION: ', sessionIdObj?.orderId);
             let checkoutOptions = {
-                paymentSessionId: sessionId,
+                paymentSessionId: sessionIdObj?.sessionId,
                 redirectTarget: "_modal", // If we don't put this, we'll be redirected to cashfree website
             }
             cashfree.checkout(checkoutOptions).then((res: any) => {
                 if(!res.error) console.log("Cashfree payment initiated");
                 else return toast.error("Cashfree payment failed");
-                verifyCashfreePayment(orderId);
+                verifyCashfreePayment(sessionIdObj?.orderId);
             });
         } catch (error) {
             console.log('Create Cashfree Order Error: ', error);
