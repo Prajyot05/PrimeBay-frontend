@@ -1,5 +1,5 @@
-import { FormEvent, useState } from 'react'
-import {Elements, PaymentElement, useElements, useStripe} from '@stripe/react-stripe-js';
+import { useState } from 'react' //FormElement removed
+import {Elements} from '@stripe/react-stripe-js'; //, PaymentElement, useElements, useStripe
 import { loadStripe } from '@stripe/stripe-js';
 import toast from 'react-hot-toast';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
@@ -15,8 +15,8 @@ import { load } from '@cashfreepayments/cashfree-js';
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
 const CheckoutForm = () => {
-    const stripe = useStripe();
-    const elements = useElements();
+    // const stripe = useStripe();
+    // const elements = useElements();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [newOrder] = useNewOrderMutation();
@@ -67,41 +67,41 @@ const CheckoutForm = () => {
         }
     };
 
-    const submitHandler = async (e:FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    // const submitHandler = async (e:FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
 
-        if(!stripe || !elements) return;
-        setIsProcessing(true);
+    //     if(!stripe || !elements) return;
+    //     setIsProcessing(true);
 
-        const orderData: NewOrderRequest = {
-            shippingInfo,
-            orderItems: cartItems, 
-            subTotal, 
-            tax, 
-            discount, 
-            shippingCharges, 
-            total,
-            user: user?._id!
-        };
+    //     const orderData: NewOrderRequest = {
+    //         shippingInfo,
+    //         orderItems: cartItems, 
+    //         subTotal, 
+    //         tax, 
+    //         discount, 
+    //         shippingCharges, 
+    //         total,
+    //         user: user?._id!
+    //     };
 
-        const {paymentIntent, error} = await stripe.confirmPayment({
-            elements, 
-            confirmParams: {return_url: window.location.origin},
-            redirect: "if_required"
-        });
+    //     const {paymentIntent, error} = await stripe.confirmPayment({
+    //         elements, 
+    //         confirmParams: {return_url: window.location.origin},
+    //         redirect: "if_required"
+    //     });
 
-        if(error){
-            setIsProcessing(false);
-            return toast.error(error.message || "Something went wrong");
-        }
+    //     if(error){
+    //         setIsProcessing(false);
+    //         return toast.error(error.message || "Something went wrong");
+    //     }
 
-        if(paymentIntent.status === "succeeded") {
-            const res = await newOrder(orderData);
-            dispatch(resetCart());
-            responseToast(res, navigate, "/orders");
-        }
-        setIsProcessing(false);
-    };
+    //     if(paymentIntent.status === "succeeded") {
+    //         const res = await newOrder(orderData);
+    //         dispatch(resetCart());
+    //         responseToast(res, navigate, "/orders");
+    //     }
+    //     setIsProcessing(false);
+    // };
 
     const verifyCashfreePayment = async (orderId: string) => {
         try {
@@ -146,6 +146,7 @@ const CheckoutForm = () => {
                 else return toast.error("Cashfree payment failed");
                 verifyCashfreePayment(sessionIdObj?.orderId);
             });
+            setIsProcessing(false);
         } catch (error) {
             console.log('Create Cashfree Order Error: ', error);
         }
