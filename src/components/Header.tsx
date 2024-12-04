@@ -28,7 +28,8 @@ function Header({user}:PropsType) {
   return (
     <nav className="header">
       <div className="header-left">
-        <Link to={"/"}><h1>PrimeBay</h1></Link>
+        <Link to={"/"}><img className="logo" src="/h2-canteen.webp" /></Link>
+        {/* <Link to={"/"}><h1>PrimeBay</h1></Link> */}
       </div>
       <div className="header-right">
         <Link onClick={() => setIsOpen(false)} to={"/"}>Home</Link>

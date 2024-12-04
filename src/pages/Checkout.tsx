@@ -152,7 +152,7 @@ const CheckoutForm = () => {
     };
 
     return <div className='checkout-container'>
-        <div className="stripe-container">
+        {/* <div className="stripe-container">
             <form onSubmit={submitHandler} action="">
                 <PaymentElement />
                 <button type='submit' disabled={isProcessing}>
@@ -160,7 +160,8 @@ const CheckoutForm = () => {
                 </button>
             </form>
         </div>
-        <h1 style={{marginTop: '2rem', marginBottom: '2rem', fontSize: '2rem', textAlign: 'center'}}>OR</h1>
+        <h1 style={{marginTop: '2rem', marginBottom: '2rem', fontSize: '2rem', textAlign: 'center'}}>OR</h1> */}
+        <h1 style={{marginTop: '5rem', marginBottom: '2rem', fontSize: '2rem', textAlign: 'center'}}>Continue Payment</h1>
         <div className='cashfree-container'>
             <button onClick={createCashfreeOrder} disabled={isProcessing}>
                 {isProcessing ? "Processing...." : "Pay using Cashfree"}

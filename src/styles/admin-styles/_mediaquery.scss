@@ -3,6 +3,10 @@
     overflow: auto;
   }
 
+  .logo{
+    width: 10rem;
+  }
+
   .dashboard {
     .widget-container,
     .graph-container,
@@ -165,8 +169,11 @@
 }
 
 @media screen and (width<= 600px) {
+  .logo{
+    width: 8rem;
+  }
   .header-right{
-    a:nth-child(1) {
+    > a:nth-child(1) {
       display: none;
     }
   }
@@ -221,5 +228,11 @@
     .stopwatch {
       align-items: center;
     }
+  }
+}
+
+@media screen and (width<= 400px) {
+  .logo{
+    margin-left: -1rem;
   }
 }
