@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from "react";
 import TableHOC from "../components/admin/TableHOC"
 import { Column } from "react-table";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useMyOrdersQuery } from "../redux/api/orderAPI";
 import toast from "react-hot-toast";
@@ -15,7 +15,7 @@ type DataType = {
     quantity: number;
     discount: number;
     status: ReactElement;
-    action: ReactElement;
+    // action: ReactElement;
 }
 
 const column: Column<DataType>[] = [
@@ -39,10 +39,10 @@ const column: Column<DataType>[] = [
         Header: "Status",
         accessor: "status"
     },
-    {
-        Header: "Action",
-        accessor: "action"
-    },
+    // {
+    //     Header: "Action",
+    //     accessor: "action"
+    // },
 ]
 
 function Orders() {
@@ -64,7 +64,7 @@ function Orders() {
         discount: i.discount,
         quantity: i.orderItems.length,
         status: <span className={i.status === "Processing" ? "red" : i.status === "Shipped" ? "green" : "purple"}>{i.status}</span>,
-        action: <Link to={`/admin/transaction/${i._id}`}>Manage</Link>
+        // action: <Link to={`/admin/transaction/${i._id}`}>Manage</Link>
     })));
     }, [data]);
 

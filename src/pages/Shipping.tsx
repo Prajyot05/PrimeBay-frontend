@@ -15,6 +15,7 @@ function Shipping() {
     const dispatch = useDispatch();
 
     const [shippingInfo, setShippingInfo] = useState({
+        phone: "",
         address: "",
         city: "",
         state: "",
@@ -62,7 +63,8 @@ function Shipping() {
     <div className="shipping">
         <button className="back-btn" onClick={() => navigate("/cart")}><BiArrowBack /></button>
         <form onSubmit={submitHandler}>
-            <h1>Shipping Address</h1>
+            <h1>Shipping Details</h1>
+            <input required type="number" placeholder="Phone Number (+91)" name="phone" value={shippingInfo.phone} onChange={changeHandler} />
             <input required type="text" placeholder="Address" name="address" value={shippingInfo.address} onChange={changeHandler} />
             <input required type="text" placeholder="City" name="city" value={shippingInfo.city} onChange={changeHandler} />
             <input required type="text" placeholder="State" name="state" value={shippingInfo.state} onChange={changeHandler} />

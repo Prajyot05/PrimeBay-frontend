@@ -32,7 +32,7 @@ export default function HomeCarousel() {
       >
         {images.map((img, i) => (
           <SwiperSlide key={i}>
-            <img style={{ objectFit: 'cover', objectPosition: 'top' }} src={img} alt="" />
+            <img style={{ objectFit: 'fill', objectPosition: 'top' }} src={img} alt="" />
           </SwiperSlide>
         ))}
       </Swiper>
