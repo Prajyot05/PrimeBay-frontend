@@ -11,6 +11,8 @@ import { RootState, server } from "../redux/store";
 
 function Cart() {
   const {cartItems, subTotal, tax, total, shippingCharges, discount} = useSelector((state: RootState) => state.cartReducer);
+  const isOrderAvailable = useSelector((state: RootState) => state.globalOrder.globalOrderStatus);
+
   const dispatch = useDispatch();
   const [couponCode, setCounponCode] = useState<string>("");
   const [isValidCouponCode, setIsValidCounponCode] = useState<boolean>(false);
@@ -31,6 +33,7 @@ function Cart() {
 
   useEffect(() => {
     const {token: cancelToken, cancel} = axios.CancelToken.source();
+
     const timeOutID = setTimeout(() => {
       axios.get(`${server}/api/v1/payment/discount?coupon=${couponCode}`, {cancelToken})
       .then(res => {
@@ -81,7 +84,13 @@ function Cart() {
           )
         }
         {
-          cartItems.length > 0 && <Link to={"/shipping"}>Checkout</Link>
+          cartItems.length > 0 && (
+            isOrderAvailable ? (
+            <Link to={"/shipping"}>Checkout</Link>
+            ) : (
+              <Link style={{backgroundColor: 'grey', pointerEvents: 'none'}} to={"#"}>Checkouts Currently Not Available</Link>
+            )
+          )
         }
       </aside>
     </div>

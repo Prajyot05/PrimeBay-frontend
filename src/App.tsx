@@ -10,6 +10,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./redux/api/userAPI";
 import { UserReducerInitialState } from "./types/reducer.types";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { server } from "./redux/store.ts";
+import io from "socket.io-client";
+import { setOrderStatus } from "./redux/reducer/globalReducer.ts";
 
 const Home = lazy(() => import("./pages/Home"));
 const Search = lazy(() => import("./pages/Search"));
@@ -45,8 +48,10 @@ const NewDiscount = lazy(() => import("./pages/admin/management/newdiscount"));
 function App() {
 
   const {user, loading} = useSelector((state:{userReducer:UserReducerInitialState}) => state.userReducer);
+  const socket = io(server);
 
   const dispatch = useDispatch();
+
 
   useEffect(() => {
     onAuthStateChanged(auth, async(user) => {
@@ -59,6 +64,18 @@ function App() {
       }
     });
   }, []);
+
+  useEffect(() => {
+    // Listen for real-time updates
+    socket.on("orderStatusUpdate", (newStatus: boolean) => {
+      dispatch(setOrderStatus(newStatus));
+    });
+
+    // Clean up the listener
+    return () => {
+      socket.off("orderStatusUpdate");
+    };
+  }, [dispatch]);
 
   return loading ? <Loader /> : (
       <Router>

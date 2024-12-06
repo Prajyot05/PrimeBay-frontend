@@ -17,6 +17,7 @@ interface DataType {
   price: number;
   stock: number;
   action: ReactElement;
+  // available: boolean;
 }
 
 const columns: Column<DataType>[] = [
@@ -40,6 +41,10 @@ const columns: Column<DataType>[] = [
     Header: "Action",
     accessor: "action",
   },
+  // {
+  //   Header: "Toggle",
+  //   accessor: "available",
+  // },
 ];
 
 const Products = () => {
@@ -60,6 +65,7 @@ const Products = () => {
       price: i.price,
       stock: i.stock,
       action:<Link to={`/admin/product/${i._id}`}>Manage</Link>
+      // toggle: i.
     })));
   }, [data]);
 

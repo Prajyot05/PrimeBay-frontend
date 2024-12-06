@@ -4,10 +4,15 @@ import { BarChart } from "../../components/admin/Charts.tsx";
 import Table from "../../components/admin/DashboardTable.tsx";
 import { useStatsQuery } from "../../redux/api/dashboardAPI.ts";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store.ts";
+import { RootState, server } from "../../redux/store.ts";
 import { Skeleton } from "../../components/Loader.tsx";
 import { Navigate } from "react-router-dom";
 import { getLastMonths } from "../../utils/features.ts";
+import Switch from "../../components/Switch.tsx";
+import { useCallback, useEffect, useState } from "react";
+import { throttle } from 'lodash';
+import axios from "axios";
+import toast from "react-hot-toast";
 
 // const userImg = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJxA5cTf-5dh5Eusm0puHbvAhOrCRPtckzjA&usqp";
 
@@ -17,6 +22,49 @@ const Dashboard = () => {
 
   const {user} = useSelector((state: RootState) => state.userReducer);
   const {isLoading, data, isError} = useStatsQuery(user?._id!);
+
+  const [isChecked, setIsChecked] = useState<boolean>(true);
+
+  useEffect(() => {
+    // Fetch initial state from backend on component mount
+    const fetchInitialState = async () => {
+      try {
+        const response = await axios.get(`${server}/api/v1/dashboard/orderStatus/${user?._id}`, {
+          params: {
+            id: user?._id
+          }
+        });
+        setIsChecked(response.data.orderStatusInfo.orderStatus);
+      } catch (error) {
+        toast.error('Failed to fetch initial button state');
+        console.log('Failed to fetch initial button state', error);
+      }
+    };
+    fetchInitialState();
+  }, []);
+
+  // Only call the function once per second
+  const throttledUpdateBackend = useCallback(
+    throttle(async (value: boolean) => {
+      try {
+        await axios.patch(`${server}/api/v1/dashboard/orderStatus?id=${user?._id}`, { 
+          id: user?._id, 
+          isEnabled: value
+        });
+        toast.success("Successfully updated Order Status")
+      } catch (error) {
+        toast.error('Failed to update Order Status');
+        console.log('STATUS POST ERROR: ', error);
+      }
+    }, 1000, { trailing: false }), 
+    []
+  );
+
+  const handleToggle = () => {
+    const newValue = !isChecked;
+    setIsChecked(newValue);
+    throttledUpdateBackend(newValue);
+  };
 
   const stats = data?.stats!;
 
@@ -35,6 +83,17 @@ const Dashboard = () => {
               <FaRegBell />
               <img src={user?.photo || userImg} alt="User" />
             </div> */}
+            <div className="switch-orders-status">
+              <h2>Order Status</h2>
+              <div className="switch-orders-button">
+                <h3 style={{color: 'grey'}}>Off</h3>
+                <Switch
+                  checked={isChecked}
+                  onChange={handleToggle}
+                />
+                <h3 style={{color: '#1e90ff'}}>On</h3>
+              </div>
+            </div>
 
             <section className="widget-container">
               <WidgetItem

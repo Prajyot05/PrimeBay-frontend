@@ -67,6 +67,72 @@
     }
   }
 
+  .switch-orders-status{
+    background-color: $color1;
+    margin-top: 2rem;
+    padding: 0.5rem 2rem;
+    border-radius: 50px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.132);
+    @include flex(row, space-between, center, 0);
+    width: 98%;
+  }
+
+  .switch-orders-button{
+    @include flex(row, unset, center, 1rem);
+  }
+
+  $switch-width: 80px;
+  $switch-height: 30px;
+  $switch-padding: 4px;
+  $switch-bg-color: #d1d1d1;
+  $switch-checked-bg-color: #add8e6;
+  $switch-toggle-color: #a9a9a9;
+  $switch-checked-toggle-color: #1e90ff;
+  
+  .switch-label {
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .switch-input {
+    display: none;
+  }
+  
+  .switch-bg {
+    width: $switch-width;
+    height: $switch-height;
+    padding: $switch-padding;
+    border-radius: 999px;
+    background-color: $switch-bg-color;
+    position: relative;
+    transition: background-color 0.3s ease;
+  
+    &.checked {
+      background-color: $switch-checked-bg-color;
+    }
+  }
+  
+  .switch-toggle {
+    width: $switch-height;
+    height: $switch-height;
+    border-radius: 50%;
+    background-color: $switch-toggle-color;
+    @include flex(row, center, center, 0);
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  
+    &.checked {
+      transform: translateX(calc(#{$switch-width} - #{$switch-height}));
+      background-color: $switch-checked-toggle-color;
+    }
+  
+    svg {
+      transition: transform 0.3s ease;
+    }
+  }
+
   .graph-container {
     @include flex(row, unset, unset, 2rem);
     padding: 0 2rem 2rem 0;
