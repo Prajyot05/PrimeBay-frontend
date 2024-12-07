@@ -8,10 +8,9 @@ import toast from "react-hot-toast";
 
 interface PropsType {
   user: User | null,
-
 }
 
-function Header({user}:PropsType) {
+function Header({ user }: PropsType) {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -26,40 +25,51 @@ function Header({user}:PropsType) {
   };
 
   return (
-    <nav className="header">
-      <div className="header-left">
-        <Link to={"/"}><img className="logo" src="/h2-canteen.webp" /></Link>
-        {/* <Link to={"/"}><h1>PrimeBay</h1></Link> */}
+    <>
+      <nav className="header">
+        <div className="header-left">
+          <Link to={"/"}><img className="logo" src="/h2-canteen.webp" /></Link>
+        </div>
+        <div className="header-right">
+          <Link onClick={() => setIsOpen(false)} to={"/"}>Home</Link>
+          <Link onClick={() => setIsOpen(false)} to={"/search"}><FaSearch /></Link>
+          <Link onClick={() => setIsOpen(false)} to={"/cart"}><FaShoppingCart /></Link>
+          {
+            user?._id ? (
+              <>
+                <button onClick={() => setIsOpen(prev => !prev)}>
+                  <FaUser />
+                </button>
+                <dialog style={{ zIndex: '999' }} open={isOpen}>
+                  <div>
+                    {
+                      user.role === "admin" && (
+                        <Link onClick={() => setIsOpen(false)} to="/admin/dashboard">Admin</Link>
+                      )
+                    }
+                    <Link onClick={() => setIsOpen(false)} to="/orders">Orders</Link>
+                    <button onClick={logoutHandler}>
+                      <FaSignOutAlt />
+                    </button>
+                  </div>
+                </dialog>
+              </>
+            ) : <Link to={"/login"}><FaSignInAlt /></Link>
+          }
+        </div>
+      </nav>
+      {/* Additional layer below the header */}
+      <div style={{
+        backgroundColor: 'red',
+        color: 'white',
+        textAlign: 'center',
+        padding: '10px 0',
+        fontWeight: 'bold'
+      }}>
+       This store will be serviceable from 6 PM till 4 AM. Please place your order in the meantime.
       </div>
-      <div className="header-right">
-        <Link onClick={() => setIsOpen(false)} to={"/"}>Home</Link>
-        <Link onClick={() => setIsOpen(false)} to={"/search"}><FaSearch /></Link>
-        <Link onClick={() => setIsOpen(false)} to={"/cart"}><FaShoppingCart /></Link>
-        {
-          user?._id ? (
-            <>
-              <button onClick={() => setIsOpen(prev => !prev)}>
-                <FaUser />
-              </button>
-              <dialog style={{zIndex: '999'}} open={isOpen}>
-                <div>
-                  {
-                    user.role === "admin" && (
-                      <Link onClick={() => setIsOpen(false)} to="/admin/dashboard">Admin</Link>
-                    )
-                  }
-                  <Link onClick={() => setIsOpen(false)} to="/orders">Orders</Link>
-                  <button onClick={logoutHandler}>
-                    <FaSignOutAlt />
-                  </button>
-                </div>
-              </dialog>
-            </>
-          ) : <Link to={"/login"}><FaSignInAlt /></Link>
-        }
-      </div>
-    </nav>
+    </>
   )
 }
 
-export default Header
+export default Header;
