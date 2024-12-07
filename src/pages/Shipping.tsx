@@ -73,6 +73,7 @@ function Shipping() {
                 <option value="india">India</option>
             </select>
             <input required type="number" placeholder="Pin Code" name="pinCode" value={shippingInfo.pinCode} onChange={changeHandler} />
+            
 
             <button type="submit">Pay Now</button>
         </form>
