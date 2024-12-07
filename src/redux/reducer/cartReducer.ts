@@ -46,8 +46,8 @@ export const cartReducer = createSlice({
 
             state.subTotal = subTotal;
             state.shippingCharges = state.subTotal > 1000 ? 200 : 0;
-            // state.tax = Math.round(state.subTotal * 0.18);
-            state.tax = 2;
+            state.tax = Math.round(state.subTotal * 0.04);
+            // state.tax = 2;
             state.total = state.subTotal + state.tax + state.shippingCharges - state.discount;
         },
         saveCoupon: (state, action: PayloadAction<string>) => {
