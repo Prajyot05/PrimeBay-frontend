@@ -1,6 +1,7 @@
 
 const Footer = () => {
   return (
+    <>
     <div className="home-footer">
         <div>
             <h3>Refund Policy</h3>
@@ -19,6 +20,7 @@ const Footer = () => {
             <a href="/tnc.pdf" target="_blank"><img src="/download.png" alt="" /></a>
         </div>
     </div>
+    </>
   )
 }
 

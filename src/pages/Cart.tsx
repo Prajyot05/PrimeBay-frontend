@@ -73,7 +73,7 @@ function Cart() {
       <aside>
         <p>Subtotal: ₹{subTotal}</p>
         <p>Shipping Charges: ₹{shippingCharges}</p>
-        <p>Tax: ₹{tax}</p>
+        <p>Platform fee: ₹{tax}</p>
         <p>Discount: <em className="red"> - ₹{discount}</em></p>
         <p><b>Total: ₹{total}</b></p>
         <input type="text" placeholder="Coupon Code" value={couponCode} onChange={e => setCounponCode(e.target.value)} />
