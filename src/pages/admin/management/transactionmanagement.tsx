@@ -110,6 +110,7 @@ const reactToPrintFn = useReactToPrint({ contentRef });
               <h5 >User Info</h5>
               <div ref={contentRef}>
               <p>Name: {name}</p>
+              <p>Order = {orderItems.map((i)=>(i.name))}</p>
               <p>
                 Address: {`${address}, ${city}, ${state}, ${country} ${pinCode} MobileNumber-> ${phone}`}
               </p>
