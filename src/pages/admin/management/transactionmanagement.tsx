@@ -7,6 +7,10 @@ import AdminSidebar from "../../../components/admin/AdminSidebar";
 import { FaTrash } from "react-icons/fa";
 import { Skeleton } from "../../../components/Loader";
 import { responseToast, transformImage } from "../../../utils/features";
+import './printCss.css'
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+
 
 const TransactionManagement = () => {
   const defaultData:Order = {
@@ -66,6 +70,8 @@ const TransactionManagement = () => {
     });
     responseToast(res, navigate, "/admin/transaction");
   };
+const contentRef = useRef<HTMLDivElement>(null);
+const reactToPrintFn = useReactToPrint({ contentRef });
 
   if(isError) return <Navigate to={"/404"} />
 
@@ -82,7 +88,6 @@ const TransactionManagement = () => {
               }}
             >
               <h2>Order Items</h2>
-
               {orderItems.map((i) => (
                 <ProductCard
                   key={i._id}
@@ -94,6 +99,7 @@ const TransactionManagement = () => {
                   price={i.price}
                 />
               ))}
+              <button onClick={() => reactToPrintFn()}>Print</button>
             </section>
 
             <article className="shipping-info-card">
@@ -101,11 +107,14 @@ const TransactionManagement = () => {
                 <FaTrash />
               </button>
               <h1>Order Info</h1>
-              <h5>User Info</h5>
+              <h5 >User Info</h5>
+              <div ref={contentRef}>
               <p>Name: {name}</p>
               <p>
                 Address: {`${address}, ${city}, ${state}, ${country} ${pinCode} MobileNumber-> ${phone}`}
               </p>
+              <p>Total: {total}</p>
+              </div>
               <h5>Amount Info</h5>
               <p>Subtotal: {subTotal}</p>
               <p>Shipping Charges: {shippingCharges}</p>
