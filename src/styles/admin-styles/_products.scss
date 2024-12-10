@@ -43,6 +43,21 @@
   @include flex(row, center, unset);
   padding: 4rem;
 
+  .print-order-btn{
+    margin: 2rem 0;
+    padding: 1rem;
+    border: none;
+    background-color: rgb(5, 107, 224);
+    color: white;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
   > section {
     overflow-y: auto;
     width: 100%;
@@ -184,5 +199,14 @@
   }
   > span {
     margin-left: auto;
+  }
+}
+
+.print-content {
+  p {
+    margin: 10px;
+    > span {
+      font-weight: 800;
+    }
   }
 }

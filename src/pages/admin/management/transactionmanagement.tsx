@@ -99,7 +99,7 @@ const reactToPrintFn = useReactToPrint({ contentRef });
                   price={i.price}
                 />
               ))}
-              <button onClick={() => reactToPrintFn()}>Print</button>
+              <button className="print-order-btn" onClick={() => reactToPrintFn()}>Print</button>
             </section>
 
             <article className="shipping-info-card">
@@ -108,13 +108,13 @@ const reactToPrintFn = useReactToPrint({ contentRef });
               </button>
               <h1>Order Info</h1>
               <h5 >User Info</h5>
-              <div ref={contentRef}>
-              <p>Name: {name}</p>
-              <p>Order = {orderItems.map((i)=>(i.name))}</p>
-              <p>
-                Address: {`${address}, ${city}, ${state}, ${country} ${pinCode} MobileNumber-> ${phone}`}
-              </p>
-              <p>Total: {total}</p>
+              <div ref={contentRef} className="print-content">
+                <p><span>Name:</span> {name}</p>
+                <p><span>Order:</span> {orderItems.map((i)=>(i.name))}</p>
+                <p>
+                  <span>Address:</span> {`${address}, ${city}, ${state}, ${country} ${pinCode} MobileNumber-> ${phone}`}
+                </p>
+                <p><span>Total:</span> {total}</p>
               </div>
               <h5>Amount Info</h5>
               <p>Subtotal: {subTotal}</p>
