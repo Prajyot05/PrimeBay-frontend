@@ -34,7 +34,8 @@ const Dashboard = () => {
             id: user?._id
           }
         });
-        setIsChecked(response.data.orderStatusInfo.orderStatus);
+        setIsChecked(response.data.orderStatusInfo);
+        console.log('ORDER STATUS INFO: ', response.data.orderStatusInfo);
       } catch (error) {
         toast.error('Failed to fetch initial button state');
         console.log('Failed to fetch initial button state', error);
