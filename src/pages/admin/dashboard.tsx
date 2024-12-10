@@ -29,11 +29,7 @@ const Dashboard = () => {
     // Fetch initial state from backend on component mount
     const fetchInitialState = async () => {
       try {
-        const response = await axios.get(`${server}/api/v1/dashboard/orderStatus/${user?._id}`, {
-          params: {
-            id: user?._id
-          }
-        });
+        const response = await axios.get(`${server}/api/v1/dashboard/orderStatus`);
         setIsChecked(response.data.orderStatusInfo);
         console.log('ORDER STATUS INFO: ', response.data.orderStatusInfo);
       } catch (error) {

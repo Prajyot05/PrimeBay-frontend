@@ -112,7 +112,9 @@ const reactToPrintFn = useReactToPrint({ contentRef });
                 <p><span>Name:</span> {name}</p>
                 <p><span>Order:</span> {orderItems.map((i)=>(i.name))}</p>
                 <p>
-                  <span>Address:</span> {`${address}, ${city}, ${state}, ${country} ${pinCode} MobileNumber-> ${phone}`}
+                  {/* <span>Address:</span> {`${address}, ${city}, ${state}, ${country} ${pinCode}`} <br /> */}
+                  <span>Address:</span> {`${address}, ${city}`} <br />
+                  <span>Mobile Number: {phone}</span>
                 </p>
                 <p><span>Total:</span> {total}</p>
               </div>

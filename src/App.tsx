@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import Loader from "./components/Loader";
 import Header from "./components/Header";
-import {Toaster} from 'react-hot-toast';
+import toast, {Toaster} from 'react-hot-toast';
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import { userExist, userNotExist } from "./redux/reducer/userReducer";
@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { server } from "./redux/store.ts";
 import io from "socket.io-client";
 import { setOrderStatus } from "./redux/reducer/globalReducer.ts";
+import axios from "axios";
 
 const Home = lazy(() => import("./pages/Home"));
 const Search = lazy(() => import("./pages/Search"));
@@ -63,6 +64,20 @@ function App() {
         dispatch(userNotExist());
       }
     });
+  }, []);
+
+  useEffect(() => {
+    // Fetch initial state from backend on component mount
+    const fetchInitialState = async () => {
+      try {
+        const response = await axios.get(`${server}/api/v1/dashboard/orderStatus`);
+        console.log('ORDER STATUS INFO AFTER REFRESH: ', response.data.orderStatusInfo);
+      } catch (error) {
+        toast.error('Failed to fetch initial button state');
+        console.log('Failed to fetch initial button state', error);
+      }
+    };
+    fetchInitialState();
   }, []);
 
   useEffect(() => {
