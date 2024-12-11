@@ -41,7 +41,8 @@ const TransactionManagement = () => {
   const {isLoading, data, isError} = useOrderDetailsQuery(params.id!);
 
   const {
-    shippingInfo: { address, city, state, country, pinCode , phone},
+    // shippingInfo: { address, city, state, country, pinCode , phone},
+    shippingInfo: { address, city, phone},
     orderItems,
     user: { name },
     status,
