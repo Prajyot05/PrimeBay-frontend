@@ -66,7 +66,7 @@ function Header({ user }: PropsType) {
         padding: '10px 0',
         fontWeight: 'bold'
       }}>
-       This store will be serviceable from 6 PM till 4 AM. Please place your order in the meantime.
+       "Hostel 2 Canteen: Where Every Bite Feels Like Home!"
       </div>
     </>
   )
