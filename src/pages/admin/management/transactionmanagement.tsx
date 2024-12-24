@@ -76,6 +76,9 @@ const reactToPrintFn = useReactToPrint({ contentRef });
 
   if(isError) return <Navigate to={"/404"} />
 
+  let digits = data?.order._id.match(/\d+/g)?.join("") || ""; // Extract all digits and join them
+  let lastThree = digits.slice(-3).padStart(3, "0"); // Take the last three digits and pad if necessary
+
   return (
     <div className="admin-container">
       <AdminSidebar />
@@ -111,6 +114,7 @@ const reactToPrintFn = useReactToPrint({ contentRef });
               <h5 >User Info</h5>
               <div ref={contentRef} className="print-content">
                 <p><span>Name:</span> {name}</p>
+                <p><span>Order Number: {lastThree}</span></p>
                 <p><span>Order:</span> {orderItems.map((i)=>(i.name))}</p>
                 <p>
                   {/* <span>Address:</span> {`${address}, ${city}, ${state}, ${country} ${pinCode}`} <br /> */}
