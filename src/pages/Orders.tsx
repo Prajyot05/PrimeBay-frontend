@@ -55,11 +55,11 @@ function Orders() {
     if(isError) {
         const err = error as CustomError;
         toast.error(err.data.message);
-      }
+    }
     
     useEffect(() => {
     if(data) setRows(data.orders.map((i) => ({
-        _id: i._id,
+        _id: i._id.match(/\d+/g)?.join("").slice(-3).padStart(3, "0") || "",
         amount: i.total,
         discount: i.discount,
         quantity: i.orderItems.length,
