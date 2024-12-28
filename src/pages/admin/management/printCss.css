@@ -5,3 +5,11 @@
     display: block;
   }
 }
+
+.centered-title {
+  margin-left: 2vh;          /* Optional: Make it occupy full viewport height */
+}
+
+.orderItems{
+  margin-left: 3.5vh;
+}
