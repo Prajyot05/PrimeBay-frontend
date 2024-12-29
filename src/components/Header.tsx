@@ -59,7 +59,7 @@ function Header({ user }: PropsType) {
         </div>
       </nav>
       {/* Additional layer below the header */}
-      <div style={{
+      {/* <div style={{
         backgroundColor: 'red',
         color: 'white',
         textAlign: 'center',
