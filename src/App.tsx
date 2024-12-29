@@ -70,7 +70,8 @@ function App() {
     // Fetch initial state from backend on component mount
     const fetchInitialState = async () => {
       try {
-        const response = await axios.get(`${server}/api/v1/dashboard/orderStatus`);
+        // const response = await axios.get(`${server}/api/v1/dashboard/orderStatus`);
+        await axios.get(`${server}/api/v1/dashboard/orderStatus`);
         // console.log('ORDER STATUS INFO AFTER REFRESH: ', response.data.orderStatusInfo);
       } catch (error) {
         toast.error('Failed to fetch initial button state');
