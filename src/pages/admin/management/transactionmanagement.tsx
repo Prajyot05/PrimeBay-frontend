@@ -12,6 +12,7 @@ import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
 
+
 const TransactionManagement = () => {
   const defaultData:Order = {
     shippingInfo: {
@@ -71,8 +72,8 @@ const TransactionManagement = () => {
     });
     responseToast(res, navigate, "/admin/transaction");
   };
-const contentRef = useRef<HTMLDivElement>(null);
-const reactToPrintFn = useReactToPrint({ contentRef });
+  const contentRef = useRef<HTMLDivElement>(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
 
   if(isError) return <Navigate to={"/404"} />
 

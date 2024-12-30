@@ -1,4 +1,4 @@
-.printContent {
+/* .printContent {
   display: none;
 
   @media print {
@@ -7,9 +7,56 @@
 }
 
 .centered-title {
-  margin-left: 2vh;          /* Optional: Make it occupy full viewport height */
+  margin-left: 2vh;
 }
 
 .orderItems{
   margin-left: 3.5vh;
-}
+} */
+@media print {
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .print-content {
+    width: 58mm; /* Adjust for your printer's paper size */
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  .centered-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .orderItems {
+    margin: 10px 0;
+  }
+
+  .orderItems div {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  span {
+    font-weight: bold;
+  }
+
+  img {
+    display: none; /* Avoid printing images */
+  }
+
+  button {
+    display: none; /* Hide buttons during printing */
+  }
+
+  .shipping-info-card {
+    border: none;
+    padding: 0;
+  }
+}  
