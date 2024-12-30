@@ -24,18 +24,18 @@ const columns: Column<DataType>[] = [
     Header: "Avatar",
     accessor: "user",
   },
-  {
-    Header: "Amount",
-    accessor: "amount",
-  },
-  {
-    Header: "Discount",
-    accessor: "discount",
-  },
-  {
-    Header: "Quantity",
-    accessor: "quantity",
-  },
+  // {
+  //   Header: "Amount",
+  //   accessor: "amount",
+  // },
+  // {
+  //   Header: "Discount",
+  //   accessor: "discount",
+  // },
+  // {
+  //   Header: "Quantity",
+  //   accessor: "quantity",
+  // },
   {
     Header: "Status",
     accessor: "status",
