@@ -21,9 +21,9 @@ type DataType = {
 
 const columns: Column<DataType>[] = [
     {
-        Header: "ID",
-        // accessor: "_id"
-        accessor: (row) =>
+      Header: "ID",
+      // accessor: "_id"
+      accessor: (row) =>
           row._id.match(/\d+/g)?.join("").slice(-3).padStart(3, "0") || "", // Transform only for display
     },
     // {

@@ -45,7 +45,8 @@ const OrderDetails = () => {
     tax,
   } = data?.order || defaultData;
 
-  const orderIdLastThree = data?.order._id.slice(-3).padStart(3, "0");
+  let digits = data?.order._id.match(/\d+/g)?.join("") || ""; // Extract all digits and join them
+  let orderIdLastThree = digits.slice(-3).padStart(3, "0");
 
   return (
     <div className="order-details-container">
