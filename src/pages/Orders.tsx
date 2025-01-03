@@ -22,7 +22,9 @@ type DataType = {
 const columns: Column<DataType>[] = [
     {
         Header: "ID",
-        accessor: "_id"
+        // accessor: "_id"
+        accessor: (row) =>
+          row._id.match(/\d+/g)?.join("").slice(-3).padStart(3, "0") || "", // Transform only for display
     },
     // {
     //     Header: "Quantity",
@@ -65,36 +67,37 @@ function Orders() {
     }
     
     useEffect(() => {
-        if (data)
-          setRows(
-            data.orders.map((i) => ({
-              _id: i._id.match(/\d+/g)?.join("").slice(-3).padStart(3, "0") || "",
-              amount: i.total,
-              discount: i.discount,
-              quantity: i.orderItems.length,
-              status: (
-                <span
-                  className={
-                    i.status === "Processing"
-                      ? "red"
-                      : i.status === "Shipped"
-                      ? "green"
-                      : "purple"
-                  }
-                >
-                  {i.status}
-                </span>
-              ),
-              action: (
-                <div>
-                  <Link to={`/order/${i._id}`} className="btn btn-primary">
-                    View Info
-                  </Link>
-                </div>
-              ),
-            }))
-          );
-      }, [data]);
+      if (data)
+        setRows(
+          data.orders.map((i) => ({
+            _id: i._id,
+            amount: i.total,
+            discount: i.discount,
+            quantity: i.orderItems.length,
+            status: (
+              <span
+                className={
+                  i.status === "Processing"
+                    ? "red"
+                    : i.status === "Shipped"
+                    ? "green"
+                    : "purple"
+                }
+              >
+                {i.status}
+              </span>
+            ),
+            action: (
+              <div>
+                <Link to={`/order/${i._id}`} className="btn btn-primary">
+                  View Info
+                </Link>
+              </div>
+            ),
+          }))
+        );
+    }, [data]);
+    
 
   return (
     <div className="container">
