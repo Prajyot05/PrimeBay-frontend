@@ -166,8 +166,23 @@ const CheckoutForm = () => {
         <h1 style={{marginTop: '5rem', marginBottom: '2rem', fontSize: '2rem', textAlign: 'center'}}>Continue Payment</h1>
         <div className='cashfree-container'>
             <button onClick={createCashfreeOrder} disabled={isProcessing}>
-                {isProcessing ? "Processing...." : "Pay using Cashfree"}
+                {isProcessing ? "Processing...." : "Confirm Payment"}
             </button>
+        </div>
+        <div className='pay-page-info'>
+            <strong>Order Items:</strong>
+            <div>
+                {cartItems.map((item) => (
+                <div key={item.productId} className="pay-order-item">
+                    {item.name} - {item.quantity} x ₹{item.price} = ₹
+                    <strong>{item.quantity * item.price}</strong>
+                </div>
+                ))}
+            </div>
+            <hr />
+            <p style={{fontSize: '2rem'}}>
+                Total: <strong>₹{total}</strong>
+            </p>
         </div>
     </div>
 };

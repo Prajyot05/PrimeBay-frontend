@@ -157,21 +157,21 @@
     }
 }
   
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  .shipping > form {
-    animation: fadeIn 0.5s ease-out;
-  }
-  
-  @media (max-width: 480px) {
-    .shipping {
-      padding: 1rem;
-  
-      > form {
-        padding: 1.5rem;
-      }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.shipping > form {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@media (max-width: 480px) {
+  .shipping {
+    padding: 1rem;
+
+    > form {
+      padding: 1.5rem;
     }
   }
+}

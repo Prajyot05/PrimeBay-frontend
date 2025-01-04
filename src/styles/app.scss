@@ -48,6 +48,7 @@ $color3: rgb(0, 104, 136);
 @import "search";
 @import "productDetails";
 @import "orderDetails";
+@import "checkout";
 @import "admin-styles/dashboard";
 @import "admin-styles/products";
 @import "admin-styles/chart";
@@ -355,20 +356,6 @@ $color3: rgb(0, 104, 136);
   align-items: center;
   justify-content: center;
   font-size: 3rem;
-}
-
-.stripe-container, .cashfree-container{
-  max-width: 400px;
-  width: 100%;
-  margin: auto;
-  > form {
-    @include flex(column, flex-start, stretch, 2rem);
-  }
-  button {
-    @include btn(1rem, $color3, $color1);
-    width: 100%;
-    font-size: 1.1rem;
-  }
 }
   
 @keyframes loading-animation {

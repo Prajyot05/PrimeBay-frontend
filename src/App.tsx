@@ -19,7 +19,8 @@ const Home = lazy(() => import("./pages/Home"));
 const Search = lazy(() => import("./pages/Search"));
 const ProductDetails = lazy(() => import("./pages/ProductDetails.tsx"));
 const Cart = lazy(() => import("./pages/Cart"));
-const ShippingCashfree = lazy(() => import("./pages/ShippingCashfree"));
+// const ShippingCashfree = lazy(() => import("./pages/ShippingCashfree"));
+const Shipping = lazy(() => import("./pages/Shipping"));
 const Login = lazy(() => import("./pages/Login"));
 const Orders = lazy(() => import("./pages/Orders"));
 const OrderDetails = lazy(() => import("./pages/OrderDetails"));
@@ -116,8 +117,8 @@ function App() {
 
               {/* Logged In User Routes */}
               <Route element={<ProtectedRoute isAuthenticated={user ? true : false} redirect="/login" />}>
-                {/* <Route path="/shipping" element={<Shipping />}/> */}
-                <Route path="/shipping" element={<ShippingCashfree />}/>
+                {/* <Route path="/shipping" element={<ShippingCashfree />}/> */}
+                <Route path="/shipping" element={<Shipping />}/>
                 <Route path="/orders" element={<Orders />}/>
                 <Route path="/order/:id" element={<OrderDetails />}/>
                 <Route path="/pay" element={<Checkout />}/>

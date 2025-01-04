@@ -66,16 +66,6 @@ function Header({ user }: PropsType) {
           }
         </div>
       </nav>
-      {/* Additional layer below the header */}
-      {/* <div style={{
-        backgroundColor: 'red',
-        color: 'white',
-        textAlign: 'center',
-        padding: '10px 0',
-        fontWeight: 'bold'
-      }}>
-       This store will be serviceable from 6 PM till 4 AM. Please place your order in the meantime.
-      </div> */}
     </>
   )
 }
