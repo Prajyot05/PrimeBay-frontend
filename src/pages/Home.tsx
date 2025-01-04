@@ -31,7 +31,7 @@ function Home() {
         <HomeCarousel />
       </section>
       {/* Additional layer below the header */}
-      <div style={{
+      {/* <div style={{
         backgroundColor: 'red',
         color: 'white',
         textAlign: 'center',
@@ -40,7 +40,7 @@ function Home() {
         fontWeight: 'bold'
       }}>
        Orders can be placed after 6 PM
-      </div>
+      </div> */}
       <h1>Latest Products
         <Link to={"/search"} className='findmore'>More</Link>
       </h1>
