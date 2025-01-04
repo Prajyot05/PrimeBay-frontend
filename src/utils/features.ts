@@ -17,6 +17,7 @@ export const responseToast = (res:ResType,
     ) => {
         if("data" in res){
             toast.success(res.data.message);
+            console.log('URL: ', url);
             if(navigate) navigate(url);
         }
         else{
