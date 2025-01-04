@@ -163,26 +163,33 @@ const CheckoutForm = () => {
             </form>
         </div>
         <h1 style={{marginTop: '2rem', marginBottom: '2rem', fontSize: '2rem', textAlign: 'center'}}>OR</h1> */}
-        <h1 style={{marginTop: '5rem', marginBottom: '2rem', fontSize: '2rem', textAlign: 'center'}}>Continue Payment</h1>
-        <div className='cashfree-container'>
+        <h1 style={{marginTop: '5rem', marginBottom: '2rem', fontSize: '2rem', textAlign: 'center'}}>Confirm Payment</h1>
+        <p className='payment-disclaimer'>Disclaimer: You will be redirected to your Orders section after processing the payment <br /> Please do not <span style={{color: 'red'}}>Leave or Refresh</span> in between </p>
+        <div className="pay-page-info">
+            <div className="order-items">
+                {cartItems.map((item) => (
+                    <div key={item.productId} className="order-item">
+                        <div className="item-details">
+                            <div className="item-info">
+                                <img src={item.photo} alt={item.name} className="item-photo" />
+                                <span className="item-name">{item.name}</span>
+                            </div>
+                            <div className="item-quantity">
+                                <span>{item.quantity}</span>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <div className="order-total">
+                <span>Total:</span>
+                <span className="total-amount">₹<strong>{total}</strong></span>
+            </div> 
+            <div className='cashfree-container'>
             <button onClick={createCashfreeOrder} disabled={isProcessing}>
                 {isProcessing ? "Processing...." : "Confirm Payment"}
             </button>
         </div>
-        <div className='pay-page-info'>
-            <strong>Order Items:</strong>
-            <div>
-                {cartItems.map((item) => (
-                <div key={item.productId} className="pay-order-item">
-                    {item.name} - {item.quantity} x ₹{item.price} = ₹
-                    <strong>{item.quantity * item.price}</strong>
-                </div>
-                ))}
-            </div>
-            <hr />
-            <p style={{fontSize: '2rem'}}>
-                Total: <strong>₹{total}</strong>
-            </p>
         </div>
     </div>
 };
