@@ -82,7 +82,7 @@ function ShippingCashfree() {
                 user: user?._id!
             };
 
-            // console.log('ORDER ID: ', orderId);
+            console.log('ORDER ID: ', orderId);
 
             let res = await axios.post(`${server}/api/v1/payment/verify`, {orderId});
             // console.log("RES IN VERIFY: ", res);
@@ -90,6 +90,7 @@ function ShippingCashfree() {
             if(res && res.data){
                 const res = await newOrder(orderData);
                 dispatch(resetCart());
+                console.log('Reaching response toast');
                 responseToast(res, navigate, "/orders");
             }
         } catch (error) {
@@ -101,8 +102,8 @@ function ShippingCashfree() {
         // console.log('reached fn')
         try {
             let sessionIdObj = await getSessionId();
-            // console.log("SESSION ID: ", sessionIdObj?.sessionId);
-            // console.log('ORDER ID IN CHECKOUT FUNCTION: ', sessionIdObj?.orderId);
+            console.log("SESSION ID: ", sessionIdObj?.sessionId);
+            console.log('ORDER ID IN CHECKOUT FUNCTION: ', sessionIdObj?.orderId);
             let checkoutOptions = {
                 paymentSessionId: sessionIdObj?.sessionId,
                 redirectTarget: "_modal", // If we don't put this, we'll be redirected to cashfree website
@@ -194,7 +195,9 @@ function ShippingCashfree() {
     };
 
     useEffect(() => {
-        if(cartItems.length <= 0) return navigate("/cart");
+        setTimeout(() =>{
+            if(cartItems.length <= 0) return navigate("/cart");
+        }, 2000);
     }, [cartItems]);
 
   return (
