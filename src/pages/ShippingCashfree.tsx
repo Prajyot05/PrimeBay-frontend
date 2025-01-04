@@ -16,6 +16,7 @@ function ShippingCashfree() {
     const {cartItems, coupon} = useSelector((state: RootState) => state.cartReducer);
     const { user } = useSelector((state: RootState) => state.userReducer);
     const [errors, setErrors] = useState<string | null>(null);
+    const [isSDKReady, setIsSDKReady] = useState<boolean>(false);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -34,13 +35,13 @@ function ShippingCashfree() {
 
     let cashfree: any;
 
-    let initializeSDK = async function () {
-        cashfree = await load({
-            mode: 'production'
-        });
-    }
+    // let initializeSDK = async function () {
+    //     cashfree = await load({
+    //         mode: 'production'
+    //     });
+    // }
     
-    initializeSDK();
+    // initializeSDK();
 
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
@@ -91,7 +92,7 @@ function ShippingCashfree() {
                 const res = await newOrder(orderData);
                 dispatch(resetCart());
                 console.log('Reaching response toast');
-                responseToast(res, navigate, "/orders");
+                return responseToast(res, navigate, "/orders");
             }
         } catch (error) {
             // console.log('Verify Cashfree Payment Error: ', error);
@@ -101,6 +102,9 @@ function ShippingCashfree() {
     const createCashfreeOrder = async () => {
         // console.log('reached fn')
         try {
+            if (!cashfree) {
+                cashfree = await load({ mode: "production" });
+            }
             let sessionIdObj = await getSessionId();
             console.log("SESSION ID: ", sessionIdObj?.sessionId);
             console.log('ORDER ID IN CHECKOUT FUNCTION: ', sessionIdObj?.orderId);
@@ -164,6 +168,7 @@ function ShippingCashfree() {
 
     const submitHandler = async (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        console.log('Shipping Info: ', shippingInfo);
 
         if(!isDataValid(shippingInfo)) return;
 
@@ -182,7 +187,7 @@ function ShippingCashfree() {
                 }
             });
 
-            createCashfreeOrder();
+            await createCashfreeOrder();
 
         } catch (error) {
             // console.log(error);
@@ -195,8 +200,14 @@ function ShippingCashfree() {
     };
 
     useEffect(() => {
-        setTimeout(() =>{
-            if(cartItems.length <= 0) return navigate("/cart");
+        const initialize = async () => {
+            cashfree = await load({ mode: "production" });
+            setIsSDKReady(true);
+        };
+        initialize();
+    
+        setTimeout(() => {
+            if (cartItems.length <= 0) return navigate("/cart");
         }, 2000);
     }, [cartItems]);
 
@@ -216,7 +227,7 @@ function ShippingCashfree() {
             <input required type="number" placeholder="Pin Code" name="pinCode" value={shippingInfo.pinCode} onChange={changeHandler} />
             <p style={{color: 'red', height: '10px', marginTop: '-15px', textAlign: 'center'}}>{errors}</p>
 
-            <button type="submit">{isProcessing ? "Processing...." : "Pay using Cashfree"}</button>
+            <button disabled={!isSDKReady || isProcessing} type="submit">{isProcessing ? "Processing...." : "Pay Now"}</button>
         </form>
     </div>
   )
