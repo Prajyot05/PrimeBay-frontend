@@ -119,7 +119,7 @@ const TransactionManagement = () => {
                 <p><span>Order Number: {lastThree}</span></p>
                   <p><span>Order:</span> <div className="orderItems">{orderItems.map((item) => (
                     <div key={item.name}>
-                      {item.name}: {item.quantity}
+                      <strong>{item.name}: {item.quantity}</strong>
                     </div>
                   ))}</div></p>
                 <p>
@@ -127,7 +127,7 @@ const TransactionManagement = () => {
                   <span>Address:</span> {`${address}, ${city}`} <br />
                   <span>Mobile Number: {phone}</span>
                 </p>
-                <p><span>Total:</span> {total}</p>
+                <p><span>Total:</span> <strong>{total}</strong></p>
               </div>
               <h5>Amount Info</h5>
               <p>Subtotal: {subTotal}</p>
