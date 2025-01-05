@@ -93,31 +93,48 @@ const Dashboard = () => {
             </div>
 
             <section className="widget-container">
+              {/* Daily Stats */}
               <WidgetItem
-                percent={stats.changePercent.revenue}
-                amount={true}
-                value={stats.count.revenue}
-                heading="Revenue"
-                color="rgb(0, 115, 255)"
+                percent={stats.changePercent.dailyTransactions}
+                value={stats.count.dailyOrders}
+                color="rgb(255 196 0)"
+                heading="Today's Transactions"
               />
+
+              <WidgetItem
+                percent={stats.changePercent.dailyRevenue}
+                value={stats.count.dailyRevenue}
+                color="rgb(76 0 255)"
+                heading="Today's Revenue"
+              />
+
               <WidgetItem
                 percent={stats.changePercent.user}
                 value={stats.count.user}
                 color="rgb(0 198 202)"
                 heading="Users"
               />
-              <WidgetItem
-                percent={stats.changePercent.order}
-                value={stats.count.order}
-                color="rgb(255 196 0)"
-                heading="Transactions"
-              />
-
+              
               <WidgetItem
                 percent={stats.changePercent.product}
                 value={stats.count.product}
                 color="rgb(76 0 255)"
                 heading="Products"
+              />
+
+              <WidgetItem
+                percent={stats.changePercent.order}
+                value={stats.count.order}
+                color="rgb(255 196 0)"
+                heading="Total Transactions"
+              />
+
+              <WidgetItem
+                percent={stats.changePercent.revenue}
+                amount={true}
+                value={stats.count.revenue}
+                heading="Total Revenue"
+                color="rgb(0, 115, 255)"
               />
             </section>
 

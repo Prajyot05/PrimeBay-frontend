@@ -58,9 +58,13 @@ export type Order = {
         _id: string;
     };
     _id: string;
+    createdAt?: string;
 };
 
 type CountAndChange = {
+    dailyTransactions: number;
+    dailyOrders: number;
+    dailyRevenue: number;
     revenue: number;
     product: number;
     user: number;

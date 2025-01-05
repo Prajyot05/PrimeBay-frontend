@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useOrderDetailsQuery } from "../redux/api/orderAPI";
 import { Order, OrderItem } from "../types/types";
 import { Skeleton } from "../components/Loader";
-import { transformImage } from "../utils/features";
+import { formatTimestamp, transformImage } from "../utils/features";
 
 const OrderDetails = () => {
   const defaultData: Order = {
@@ -62,6 +62,12 @@ const OrderDetails = () => {
               </p>
               <p>
                 <strong>Order Number:</strong> {orderIdLastThree}
+              </p>
+              <p>
+              <strong>Order Date:</strong> {data && data.order.createdAt && formatTimestamp(data?.order.createdAt).date}
+              </p>
+              <p>
+                <strong>Order Time:</strong> {data && data.order.createdAt && formatTimestamp(data?.order.createdAt).time}
               </p>
               <p>
                 <strong>Shipping Address:</strong> {`${address}, ${city}`}

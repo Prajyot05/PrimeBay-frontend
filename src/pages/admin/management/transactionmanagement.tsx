@@ -6,7 +6,7 @@ import { useDeleteOrderMutation, useOrderDetailsQuery, useUpdateOrderMutation } 
 import AdminSidebar from "../../../components/admin/AdminSidebar";
 import { FaTrash } from "react-icons/fa";
 import { Skeleton } from "../../../components/Loader";
-import { responseToast, transformImage } from "../../../utils/features";
+import { formatTimestamp, responseToast, transformImage } from "../../../utils/features";
 import './printCss.css'
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
@@ -75,6 +75,11 @@ const TransactionManagement = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
+  const handlePrint = () => {
+    updateHandler();
+    reactToPrintFn();
+  }
+
   if(isError) return <Navigate to={"/404"} />
 
   let digits = data?.order._id.match(/\d+/g)?.join("") || ""; // Extract all digits and join them
@@ -104,7 +109,7 @@ const TransactionManagement = () => {
                   price={i.price}
                 />
               ))}
-              <button className="print-order-btn" onClick={() => reactToPrintFn()}>Print</button>
+              <button className="print-order-btn" onClick={handlePrint}>Print</button>
             </section>
 
             <article className="shipping-info-card">
@@ -128,6 +133,16 @@ const TransactionManagement = () => {
                   <span>Mobile Number: {phone}</span>
                 </p>
                 <p><span>Total:</span> <strong>{total}</strong></p>
+              </div>
+              <div className="shipping-date-and-time">
+                <div>
+                  <h5>Order Date:</h5>
+                  <p>{data && data.order.createdAt && formatTimestamp(data?.order.createdAt).date}</p>
+                </div>
+                <div>
+                  <h5>Order Time:</h5>
+                  <p>{data && data.order.createdAt && formatTimestamp(data?.order.createdAt).time}</p>
+                </div>
               </div>
               <h5>Amount Info</h5>
               <p>Subtotal: {subTotal}</p>
