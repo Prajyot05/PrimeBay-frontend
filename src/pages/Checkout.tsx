@@ -130,7 +130,7 @@ const CheckoutForm = () => {
         } catch (error) {
             // console.log('Verify Cashfree Payment Error: ', error);
         }
-    }
+    };
 
     const createCashfreeOrder = async () => {
         // console.log('reached fn')

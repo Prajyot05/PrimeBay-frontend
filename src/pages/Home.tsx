@@ -31,16 +31,16 @@ function Home() {
         <HomeCarousel />
       </section>
       {/* Additional layer below the header */}
-      {/* <div style={{
+      <div style={{
         backgroundColor: 'red',
         color: 'white',
         textAlign: 'center',
         padding: '10px 0',
-        fontSize: '1.5rem',
+        fontSize: '1.2rem',
         fontWeight: 'bold'
       }}>
-       Orders can be placed after 6 PM
-      </div> */}
+       This site is under maintainance. You can order from h2canteen.com
+      </div>
       <h1>Latest Products
         <Link to={"/search"} className='findmore'>More</Link>
       </h1>
