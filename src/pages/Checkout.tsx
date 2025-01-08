@@ -1,6 +1,4 @@
 import { useState } from 'react' //FormElement removed
-import {Elements} from '@stripe/react-stripe-js'; //, PaymentElement, useElements, useStripe
-import { loadStripe } from '@stripe/stripe-js';
 import toast from 'react-hot-toast';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { NewOrderRequest } from '../types/api.types';
@@ -12,7 +10,7 @@ import { RootState, server } from '../redux/store';
 import axios from 'axios';
 import { load } from '@cashfreepayments/cashfree-js';
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
+// const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
 const CheckoutForm = () => {
     // const stripe = useStripe();
@@ -48,12 +46,12 @@ const CheckoutForm = () => {
             total,
             user
             };
-            // console.log('body', body);
+            console.log('body', body);
     
             const res = await axios.post(`${server}/api/v1/payment/sessionId`, body);
-            // console.log('res', res);
+            console.log('res', res);
     
-            // console.log('Session ID response: ', res.data);
+            console.log('Session ID response: ', res.data);
             // setOrderId(temp);
             // console.log("NEW ORDER ID IN GET_SESSION_ID: ", temp);
             // console.log("ORDER ID IN GET_SESSION_ID: ", orderId);
@@ -116,10 +114,10 @@ const CheckoutForm = () => {
                 user: user?._id!
             };
 
-            // console.log('ORDER ID: ', orderId);
+            console.log('ORDER ID: ', orderId);
 
             let res = await axios.post(`${server}/api/v1/payment/verify`, {orderId});
-            // console.log("RES IN VERIFY: ", res);
+            console.log("RES IN VERIFY: ", res);
 
             if(res && res.data){
                 const res = await newOrder(orderData);
@@ -133,11 +131,11 @@ const CheckoutForm = () => {
     };
 
     const createCashfreeOrder = async () => {
-        // console.log('reached fn')
+        console.log('reached fn')
         try {
             let sessionIdObj = await getSessionId();
-            // console.log("SESSION ID: ", sessionIdObj?.sessionId);
-            // console.log('ORDER ID IN CHECKOUT FUNCTION: ', sessionIdObj?.orderId);
+            console.log("SESSION ID: ", sessionIdObj?.sessionId);
+            console.log('ORDER ID IN CHECKOUT FUNCTION: ', sessionIdObj?.orderId);
             let checkoutOptions = {
                 paymentSessionId: sessionIdObj?.sessionId,
                 redirectTarget: "_modal", // If we don't put this, we'll be redirected to cashfree website
@@ -201,9 +199,9 @@ const Checkout = () => {
     if(!clientSecret) return <Navigate to={"/shipping"} />
 
   return (
-    <Elements options={{clientSecret}} stripe={stripePromise} >
+    // <Elements options={{clientSecret}} stripe={stripePromise} >
         <CheckoutForm />
-    </Elements>
+    // </Elements>
   )
 }
 
