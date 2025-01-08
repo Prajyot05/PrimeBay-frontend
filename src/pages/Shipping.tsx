@@ -201,8 +201,11 @@ function Shipping() {
                             name="paymentMethod"
                             value="payNow"
                             onChange={() => setPaymentMethod("payNow")}
+                            disabled
                         />
-                        Pay Now
+                        <div>
+                         <p>Pay Now</p> <span style={{color: 'red', fontSize: '0.8rem'}}>*(under maintainance)</span>
+                        </div>
                     </label>
                     <label>
                         <input
