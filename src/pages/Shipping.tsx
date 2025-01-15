@@ -84,7 +84,10 @@ function Shipping() {
         setIsLoading(true);
         e.preventDefault();
 
-        if(!isDataValid(shippingInfo)) return;
+        if(!isDataValid(shippingInfo)){
+            setIsLoading(false);
+            return;
+        }
 
         dispatch(saveShippingInfo(shippingInfo));
 
