@@ -18,6 +18,7 @@ function Shipping() {
     const [errors, setErrors] = useState<string | null>(null);
     const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
     const [newOrder] = useNewOrderMutation();
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -80,6 +81,7 @@ function Shipping() {
     }
 
     const submitHandler = async (e:FormEvent<HTMLFormElement>) => {
+        setIsLoading(true);
         e.preventDefault();
 
         if(!isDataValid(shippingInfo)) return;
@@ -126,6 +128,7 @@ function Shipping() {
               toast.error("Something went wrong");
           }
       }
+      setIsLoading(false);
     };
 
     const changeHandler = (e:ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -228,7 +231,7 @@ function Shipping() {
               >
                   {errors}
               </p>
-              <button type="submit">Continue</button>
+              <button disabled={isLoading} type="submit">{isLoading ?  'Loading...' : 'Continue'}</button>
           </form>
       </div>
   );
