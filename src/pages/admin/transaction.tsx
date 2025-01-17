@@ -9,8 +9,10 @@ import { CustomError } from "../../types/api.types";
 import toast from "react-hot-toast";
 import { RootState } from "../../redux/store";
 import { Skeleton } from "../../components/Loader";
+import { getOrderNumber } from "../../utils/features";
 
 interface DataType {
+  id: string;
   user: string;
   amount: number;
   discount: number;
@@ -20,6 +22,10 @@ interface DataType {
 }
 
 const columns: Column<DataType>[] = [
+  {
+    Header: "Order ID",
+    accessor: "id"
+  },
   {
     Header: "Avatar",
     accessor: "user",
@@ -89,6 +95,7 @@ const Transaction = () => {
       // Update rows for the table
       setRows(
         orders.map((order) => ({
+          id: getOrderNumber(order._id),
           user: order.user.name,
           amount: order.total,
           discount: order.discount,

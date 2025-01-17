@@ -57,6 +57,7 @@ export type Order = {
         name: string;
         _id: string;
     };
+    orderType: string;
     _id: string;
     createdAt?: string;
 };

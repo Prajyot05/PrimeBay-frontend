@@ -122,7 +122,8 @@ function Shipping() {
                 discount, 
                 shippingCharges, 
                 total,
-                user: user?._id!
+                user: user?._id!,
+                orderType: 'COD'
             };
             const res = await newOrder(orderData);
             dispatch(resetCart());

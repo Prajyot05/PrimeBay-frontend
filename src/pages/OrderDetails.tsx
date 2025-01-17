@@ -23,6 +23,7 @@ const OrderDetails = () => {
     total: 0,
     orderItems: [],
     user: { name: "", _id: "" },
+    orderType: "",
     _id: "",
   };
 
@@ -37,6 +38,7 @@ const OrderDetails = () => {
     shippingInfo: { address, city, phone },
     orderItems,
     user: { name },
+    orderType,
     status,
     subTotal,
     total,
@@ -62,6 +64,9 @@ const OrderDetails = () => {
               </p>
               <p>
                 <strong>Order Number:</strong> {orderIdLastThree}
+              </p>
+              <p>
+                <strong>Order Type:</strong> {orderType}
               </p>
               <p>
               <strong>Order Date:</strong> {data && data.order.createdAt && formatTimestamp(data?.order.createdAt).date}

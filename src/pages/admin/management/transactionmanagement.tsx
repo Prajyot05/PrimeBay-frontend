@@ -31,6 +31,7 @@ const TransactionManagement = () => {
     total: 0,
     orderItems: [],
     user: {name: "", _id: ""},
+    orderType: "",
     _id: ""
   };
 
@@ -46,6 +47,7 @@ const TransactionManagement = () => {
     shippingInfo: { address, city, phone},
     orderItems,
     user: { name },
+    orderType,
     status,
     subTotal,
     total,
@@ -122,6 +124,7 @@ const TransactionManagement = () => {
                   <h1 className="centered-title">H2 Canteen</h1>
                 <p><span>Name:</span> {name}</p>
                 <p><span>Order Number: {lastThree}</span></p>
+                {orderType && <p><span>Payment Method: {orderType}</span></p>}
                   <p><span>Order:</span> <div className="orderItems">{orderItems.map((item) => (
                     <div key={item.name}>
                       <strong>{item.name}: {item.quantity}</strong>

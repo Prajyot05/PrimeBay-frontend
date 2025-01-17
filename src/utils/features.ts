@@ -75,4 +75,9 @@ export const formatTimestamp =(timestamp: string) => {
         time: `${hours}:${minutes}:${seconds}`,
         date: `${day}-${month}-${year}`
     }    
-  }
+}
+
+export const getOrderNumber = (id: string) => {
+    let digits = id.match(/\d+/g)?.join("") || ""; // Extract all digits and join them
+    return digits.slice(-3).padStart(3, "0"); // Take the last three digits and pad if necessary
+}
