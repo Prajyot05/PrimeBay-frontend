@@ -80,7 +80,8 @@ function ShippingCashfree() {
                 discount, 
                 shippingCharges, 
                 total,
-                user: user?._id!
+                user: user?._id!,
+                orderType: 'PREPAID'
             };
 
             console.log('ORDER ID: ', orderId);
