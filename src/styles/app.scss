@@ -357,6 +357,21 @@ $color3: rgb(0, 104, 136);
   justify-content: center;
   font-size: 3rem;
 }
+
+.maintainance-message{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  height: 100vh;
+  font-size: 0.7rem;
+  background-color: white;
+
+  a{
+    color: blue;
+  }
+}
   
 @keyframes loading-animation {
     to {

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import Loader from "./components/Loader";
 import Header from "./components/Header";
@@ -94,6 +94,11 @@ function App() {
     };
   }, [dispatch]);
 
+  return( 
+    <div className="maintainance-message">
+      <h1>This website is currently under maintainance. You can visit <a href="https://h2canteen.com/">https://h2canteen.com/</a> for placing orders.</h1>
+    </div>
+  )
   return loading ? <Loader /> : (
       <Router>
         <Header user={user} />
