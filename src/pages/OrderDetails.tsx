@@ -28,7 +28,7 @@ const OrderDetails = () => {
   };
 
   const params = useParams();
-  console.log('id: ', params.id);
+  // console.log("id: ", params.id);
   const { isLoading, data, isError } = useOrderDetailsQuery(params.id!);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -69,10 +69,16 @@ const OrderDetails = () => {
                 <strong>Order Type:</strong> {orderType}
               </p>
               <p>
-              <strong>Order Date:</strong> {data && data.order.createdAt && formatTimestamp(data?.order.createdAt).date}
+                <strong>Order Date:</strong>{" "}
+                {data &&
+                  data.order.createdAt &&
+                  formatTimestamp(data?.order.createdAt).date}
               </p>
               <p>
-                <strong>Order Time:</strong> {data && data.order.createdAt && formatTimestamp(data?.order.createdAt).time}
+                <strong>Order Time:</strong>{" "}
+                {data &&
+                  data.order.createdAt &&
+                  formatTimestamp(data?.order.createdAt).time}
               </p>
               <p>
                 <strong>Shipping Address:</strong> {`${address}, ${city}`}
@@ -82,7 +88,9 @@ const OrderDetails = () => {
               </p>
               <p>
                 <strong>Status:</strong>{" "}
-                <span className={`status ${status.toLowerCase()}`}>{status}</span>
+                <span className={`status ${status.toLowerCase()}`}>
+                  {status}
+                </span>
               </p>
               <p>
                 <strong>Order Items:</strong>
@@ -132,9 +140,18 @@ const OrderDetails = () => {
   );
 };
 
-const ProductCard = ({ name, photo, price, quantity, productId }: OrderItem) => (
+const ProductCard = ({
+  name,
+  photo,
+  price,
+  quantity,
+  productId,
+}: OrderItem) => (
   <div className="product-card">
-    <img src={transformImage(photo)} alt={name} />
+    <img
+      src={transformImage(`${import.meta.env.VITE_SERVER}${photo}`)}
+      alt={name}
+    />
     <Link to={`/product/${productId}`} className="product-link">
       {name}
     </Link>

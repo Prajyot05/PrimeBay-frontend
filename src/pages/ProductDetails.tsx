@@ -2,13 +2,23 @@ import { CarouselButtonType, MyntraCarousel, Slider, useRating } from "6pp";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { FaTrash } from "react-icons/fa";
-import { FaArrowLeftLong, FaArrowRightLong, FaRegStar, FaStar } from "react-icons/fa6";
+import {
+  FaArrowLeftLong,
+  FaArrowRightLong,
+  FaRegStar,
+  FaStar,
+} from "react-icons/fa6";
 import { FiEdit } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useParams } from "react-router-dom";
 import { Skeleton } from "../components/Loader";
 import RatingsComponent from "../components/Ratings";
-import {useAllReviewsOfProductQuery,useDeleteReviewMutation,useNewReviewMutation,useProductDetailsQuery} from "../redux/api/productAPI";
+import {
+  useAllReviewsOfProductQuery,
+  useDeleteReviewMutation,
+  useNewReviewMutation,
+  useProductDetailsQuery,
+} from "../redux/api/productAPI";
 import { addToCart } from "../redux/reducer/cartReducer";
 import { RootState } from "../redux/store";
 import { CartItem, Review } from "../types/types";
@@ -110,26 +120,41 @@ const ProductDetails = () => {
                 showThumbnails
                 showNav={false}
                 onClick={() => setCarouselOpen(true)}
-                images={data?.product?.photos.map((i) => i.url) || []}
+                images={
+                  data?.product?.photos.map(
+                    (i) => `${import.meta.env.VITE_SERVER}${i}`
+                  ) || []
+                }
               />
               {carouselOpen && (
                 <MyntraCarousel
                   NextButton={NextButton}
                   PrevButton={PrevButton}
                   setIsOpen={setCarouselOpen}
-                  images={data?.product?.photos.map((i) => i.url) || []}
+                  images={
+                    data?.product?.photos.map(
+                      (i) => `${import.meta.env.VITE_SERVER}${i}`
+                    ) || []
+                  }
                 />
               )}
             </section>
             <section>
               <code>{data?.product?.category}</code>
-              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
                 <h1>{data?.product?.name}</h1>
                 <em
                   style={{ display: "flex", gap: "1rem", alignItems: "center" }}
                 >
-                  <RatingsComponent value={data?.product?.ratings || 0} />
-                  ({data?.product?.numberOfReviews} {data?.product?.numberOfReviews === 1 ? 'review' : 'reviews'})
+                  <RatingsComponent value={data?.product?.ratings || 0} />(
+                  {data?.product?.numberOfReviews}{" "}
+                  {data?.product?.numberOfReviews === 1 ? "review" : "reviews"})
                 </em>
               </div>
               <h3>₹{data?.product?.price}</h3>
@@ -148,7 +173,10 @@ const ProductDetails = () => {
                       price: data?.product?.price!,
                       stock: data?.product?.stock!,
                       quantity,
-                      photo: data?.product?.photos[0].url || "",
+                      photo:
+                        `${import.meta.env.VITE_SERVER}${
+                          data?.product?.photos[0]
+                        }` || "",
                     })
                   }
                 >
@@ -171,7 +199,7 @@ const ProductDetails = () => {
           ></textarea>
           <RatingsEditable />
           <button disabled={reviewSubmitLoading} type="submit">
-            {reviewSubmitLoading ? 'Submitting...' : 'Submit'}
+            {reviewSubmitLoading ? "Submitting..." : "Submit"}
           </button>
         </form>
       </dialog>

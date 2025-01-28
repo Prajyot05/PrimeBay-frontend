@@ -48,25 +48,40 @@ const columns: Column<DataType>[] = [
 ];
 
 const Products = () => {
-  const {user} = useSelector((state:{userReducer:UserReducerInitialState}) => state.userReducer);
+  const { user } = useSelector(
+    (state: { userReducer: UserReducerInitialState }) => state.userReducer
+  );
 
-  const {data, isError, error, isLoading} = useAllProductsQuery(user?._id!);
+  const { data, isError, error, isLoading } = useAllProductsQuery(user?._id!);
   const [rows, setRows] = useState<DataType[]>([]);
 
-  if(isError) {
-    const err = error as CustomError
+  if (isError) {
+    const err = error as CustomError;
     toast.error(err.data.message);
   }
 
   useEffect(() => {
-    if(data) setRows(data.products.map((i) => ({
-      photo: <img src={i.photos[0]?.url} />,
-      name: i.name,
-      price: i.price,
-      stock: i.stock,
-      action:<Link to={`/admin/product/${i._id}`}>Manage</Link>
-      // toggle: i.
-    })));
+    if (data)
+      setRows(
+        data.products.map((i) => ({
+          // photo: <img src={i.photos[0]?.url} />,
+          // photo: (
+          //   <img
+          //     src={
+          //       typeof i.photos[0] === "string"
+          //         ? `${import.meta.env.VITE_SERVER}${i.photos[0]}`
+          //         : i.photos[0]?.url
+          //     }
+          //   />
+          // ),
+          photo: <img src={`${import.meta.env.VITE_SERVER}${i.photos[0]}`} />,
+          name: i.name,
+          price: i.price,
+          stock: i.stock,
+          action: <Link to={`/admin/product/${i._id}`}>Manage</Link>,
+          // toggle: i.
+        }))
+      );
   }, [data]);
 
   const Table = TableHOC<DataType>(
