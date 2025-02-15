@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import Loader from "./components/Loader";
 import Header from "./components/Header";
-import toast, {Toaster} from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import { userExist, userNotExist } from "./redux/reducer/userReducer";
@@ -42,26 +42,31 @@ const Stopwatch = lazy(() => import("./pages/admin/apps/stopwatch"));
 const Toss = lazy(() => import("./pages/admin/apps/toss"));
 const NewProduct = lazy(() => import("./pages/admin/management/newproduct"));
 
-const ProductManagement = lazy(() => import("./pages/admin/management/productmanagement"));
-const TransactionManagement = lazy(() => import("./pages/admin/management/transactionmanagement"));
-const DiscountManagement = lazy(() => import("./pages/admin/management/discountmanagement"));
+const ProductManagement = lazy(
+  () => import("./pages/admin/management/productmanagement")
+);
+const TransactionManagement = lazy(
+  () => import("./pages/admin/management/transactionmanagement")
+);
+const DiscountManagement = lazy(
+  () => import("./pages/admin/management/discountmanagement")
+);
 const NewDiscount = lazy(() => import("./pages/admin/management/newdiscount"));
 
 function App() {
-
-  const {user, loading} = useSelector((state:{userReducer:UserReducerInitialState}) => state.userReducer);
+  const { user, loading } = useSelector(
+    (state: { userReducer: UserReducerInitialState }) => state.userReducer
+  );
   const socket = io(server);
 
   const dispatch = useDispatch();
 
-
   useEffect(() => {
-    onAuthStateChanged(auth, async(user) => {
-      if(user){
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
         const data = await getUser(user.uid);
         dispatch(userExist(data.user));
-      }
-      else {
+      } else {
         dispatch(userNotExist());
       }
     });
@@ -75,7 +80,7 @@ function App() {
         await axios.get(`${server}/api/v1/dashboard/orderStatus`);
         // console.log('ORDER STATUS INFO AFTER REFRESH: ', response.data.orderStatusInfo);
       } catch (error) {
-        toast.error('Failed to fetch initial button state');
+        toast.error("Failed to fetch initial button state");
         // console.log('Failed to fetch initial button state', error);
       }
     };
@@ -94,83 +99,101 @@ function App() {
     };
   }, [dispatch]);
 
-  return( 
-    <div className="maintainance-message">
-      <h1>This website is currently under maintainance. You can visit <a href="https://h2canteen.com/">https://h2canteen.com/</a> for placing orders.</h1>
-    </div>
-  )
-  return loading ? <Loader /> : (
-      <Router>
-        <Header user={user} />
-        <Suspense fallback={<Loader />}>
-          <div className="main-body">
-            <Routes>
-              <Route path="/" element={<Home />}/>
-              <Route path="/search" element={<Search />}/>
-              <Route path="/product/:id" element={<ProductDetails />}/>
-              <Route path="/cart" element={<Cart />}/>
+  // return(
+  //   <div className="maintainance-message">
+  //     <h1>This website is currently under maintainance. You can visit <a href="https://h2canteen.com/">https://h2canteen.com/</a> for placing orders.</h1>
+  //   </div>
+  // )
+  return loading ? (
+    <Loader />
+  ) : (
+    <Router>
+      <Header user={user} />
+      <Suspense fallback={<Loader />}>
+        <div className="main-body">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/cart" element={<Cart />} />
 
-              {/* Not Logged In User Routes */}
-              <Route 
-                path="/login" 
-                element={
+            {/* Not Logged In User Routes */}
+            <Route
+              path="/login"
+              element={
                 <ProtectedRoute isAuthenticated={user ? false : true}>
                   <Login />
                 </ProtectedRoute>
-                } 
+              }
+            />
+
+            {/* Logged In User Routes */}
+            <Route
+              element={
+                <ProtectedRoute
+                  isAuthenticated={user ? true : false}
+                  redirect="/login"
+                />
+              }
+            >
+              {/* <Route path="/shipping" element={<ShippingCashfree />}/> */}
+              <Route path="/shipping" element={<Shipping />} />
+              <Route path="/orders" element={<Orders />} />
+              <Route path="/order/:id" element={<OrderDetails />} />
+              <Route path="/pay" element={<Checkout />} />
+            </Route>
+
+            {/* Admin Routes */}
+            <Route
+              element={
+                <ProtectedRoute
+                  isAuthenticated={true}
+                  adminRoute={true}
+                  isAdmin={user?.role === "admin" ? true : false}
+                />
+              }
+            >
+              <Route path="/admin/dashboard" element={<Dashboard />} />
+              <Route path="/admin/product" element={<Products />} />
+              <Route path="/admin/customer" element={<Customers />} />
+              <Route path="/admin/transaction" element={<Transaction />} />
+              <Route path="/admin/discount" element={<Discount />} />
+              {/* Charts */}
+              <Route path="/admin/chart/bar" element={<Barcharts />} />
+              <Route path="/admin/chart/pie" element={<Piecharts />} />
+              <Route path="/admin/chart/line" element={<Linecharts />} />
+              {/* Apps */}
+              <Route path="/admin/app/coupon" element={<Coupon />} />
+              <Route path="/admin/app/stopwatch" element={<Stopwatch />} />
+              <Route path="/admin/app/toss" element={<Toss />} />
+
+              {/* Management */}
+              <Route path="/admin/product/new" element={<NewProduct />} />
+
+              <Route
+                path="/admin/product/:id"
+                element={<ProductManagement />}
               />
 
-              {/* Logged In User Routes */}
-              <Route element={<ProtectedRoute isAuthenticated={user ? true : false} redirect="/login" />}>
-                {/* <Route path="/shipping" element={<ShippingCashfree />}/> */}
-                <Route path="/shipping" element={<Shipping />}/>
-                <Route path="/orders" element={<Orders />}/>
-                <Route path="/order/:id" element={<OrderDetails />}/>
-                <Route path="/pay" element={<Checkout />}/>
-              </Route>
-              
-              {/* Admin Routes */}
               <Route
-                element={
-                  <ProtectedRoute 
-                    isAuthenticated={true} 
-                    adminRoute={true} 
-                    isAdmin={user?.role === "admin" ? true : false} 
-                  />
-                }
-              >
-                <Route path="/admin/dashboard" element={<Dashboard />} />
-                <Route path="/admin/product" element={<Products />} />
-                <Route path="/admin/customer" element={<Customers />} />
-                <Route path="/admin/transaction" element={<Transaction />} />
-                <Route path="/admin/discount" element={<Discount />} />
-                {/* Charts */}
-                <Route path="/admin/chart/bar" element={<Barcharts />} />
-                <Route path="/admin/chart/pie" element={<Piecharts />} />
-                <Route path="/admin/chart/line" element={<Linecharts />} />
-                {/* Apps */}
-                <Route path="/admin/app/coupon" element={<Coupon />} />
-                <Route path="/admin/app/stopwatch" element={<Stopwatch />} />
-                <Route path="/admin/app/toss" element={<Toss />} />
+                path="/admin/transaction/:id"
+                element={<TransactionManagement />}
+              />
 
-                {/* Management */}
-                <Route path="/admin/product/new" element={<NewProduct />} />
+              <Route path="/admin/discount/new" element={<NewDiscount />} />
 
-                <Route path="/admin/product/:id" element={<ProductManagement />} />
-
-                <Route path="/admin/transaction/:id" element={<TransactionManagement />} />
-
-                <Route path="/admin/discount/new" element={<NewDiscount />} />
-
-                <Route path="/admin/discount/:id" element={<DiscountManagement />} />
-              </Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </div>
-        </Suspense>
-        <Toaster position="bottom-center" />
-      </Router>
-  )
+              <Route
+                path="/admin/discount/:id"
+                element={<DiscountManagement />}
+              />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+      </Suspense>
+      <Toaster position="bottom-center" />
+    </Router>
+  );
 }
 
-export default App
+export default App;

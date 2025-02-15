@@ -5,70 +5,67 @@ import { UserReducerInitialState } from "../../../types/reducer.types";
 import { useNewProductMutation } from "../../../redux/api/productAPI";
 import { responseToast } from "../../../utils/features";
 import { useNavigate } from "react-router-dom";
-import { useFileHandler } from "6pp";
+import { UploadButton } from "../../../utils/uploadthing";
+import "@uploadthing/react/styles.css";
+import toast from "react-hot-toast";
 
 const NewProduct = () => {
-  const {user} = useSelector((state:{userReducer: UserReducerInitialState}) => state.userReducer);
+  const { user } = useSelector(
+    (state: { userReducer: UserReducerInitialState }) => state.userReducer
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [price, setPrice] = useState<number>(1000);
   const [stock, setStock] = useState<number>(1);
   const [description, setDescription] = useState<string>("");
+  const [photos, setPhotos] = useState<
+    | {
+        url: string;
+        key: string;
+      }[]
+    | []
+  >([]);
 
   const [newProduct] = useNewProductMutation();
   const navigate = useNavigate();
 
-  const photos = useFileHandler("multiple", 10, 5);
-
-  // const changeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const file: File | undefined = e.target.files?.[0];
-
-  //   const reader: FileReader = new FileReader();
-
-  //   if (file) {
-  //     reader.readAsDataURL(file);
-  //     reader.onloadend = () => {
-  //       if (typeof reader.result === "string") {
-  //         setPhotoPrev(reader.result);
-  //         setPhoto(file);
-  //       }
-  //     };
-  //   }
-  // };
-
-  const submitHandler = async (e:FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      if(!name || !price || stock < 0 || !category) return;
-  
-      if(!photos.file || photos.file.length === 0) return;
-  
+      if (!name || !price || stock < 0 || !category) return;
+      if (!photos || photos.length === 0) {
+        toast.error("Please add photos");
+        return;
+      }
+
       const formData = new FormData();
-  
+
       formData.set("name", name);
       formData.set("description", description);
       formData.set("price", price.toString());
       formData.set("stock", stock.toString());
       formData.set("category", category);
-  
-      photos.file.forEach((file) => {
-        formData.append("photos", file);
-      })
-  
-      const res = await newProduct({id: user?._id!, formData});
+
+      const res = await newProduct({ id: user?._id!, formData, photos });
 
       responseToast(res, navigate, "/admin/product");
-    } 
-    catch (error) {
+    } catch (error) {
       // console.log(error);
-    }
-    finally{
+    } finally {
       setIsLoading(false);
     }
+  };
 
+  const handleImages = (data: any) => {
+    setPhotos([
+      ...data.map((item: any) => ({
+        key: item.key,
+        url: item.ufsUrl,
+      })),
+    ]);
   };
 
   return (
@@ -130,26 +127,15 @@ const NewProduct = () => {
             </div>
 
             <div>
-              <label>Photos</label>
-              <input 
-                required
-                type="file"
-                accept="image/" 
-                multiple
-                onChange={photos.changeHandler} />
+              <UploadButton
+                endpoint="imageUploader"
+                onClientUploadComplete={(data) => handleImages(data)}
+              />
             </div>
 
-            {
-              photos.error &&  <p>{photos.error}</p>
-            }
-
-            {
-              photos.preview && photos.preview.map((img, i) => (
-                <img key={i} src={img} alt="New Image" />
-              ))
-            }
-
-            <button disabled={isLoading} type="submit">{isLoading ? 'Creating...' : 'Create'}</button>
+            <button disabled={isLoading} type="submit">
+              {isLoading ? "Creating..." : "Create"}
+            </button>
           </form>
         </article>
       </main>
