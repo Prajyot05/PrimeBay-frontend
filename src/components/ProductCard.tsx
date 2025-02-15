@@ -7,16 +7,24 @@ type ProductsProps = {
   productId: string;
   photos: {
     url: string;
-    public_id: string;
+    key: string;
   }[];
   name: string;
   category: string;
   price: number;
   stock: number;
   handler: (cartItem: CartItem) => string | undefined;
-}
+};
 
-function ProductCard({productId, photos, name, category, price, stock, handler}:ProductsProps) {
+function ProductCard({
+  productId,
+  photos,
+  name,
+  category,
+  price,
+  stock,
+  handler,
+}: ProductsProps) {
   return (
     <div className="product-card">
       <img src={transformImage(photos[0]?.url, 600)} alt={name} />
@@ -26,7 +34,18 @@ function ProductCard({productId, photos, name, category, price, stock, handler}:
       </div>
       <span>₹{price}</span>
       <div className="product-card-links">
-        <button onClick={() => handler({productId, photo: photos[0].url, name, price, stock, quantity: 1})}>
+        <button
+          onClick={() =>
+            handler({
+              productId,
+              photo: photos[0].url,
+              name,
+              price,
+              stock,
+              quantity: 1,
+            })
+          }
+        >
           <FaPlus />
         </button>
         <Link to={`/product/${productId}`}>
@@ -34,7 +53,7 @@ function ProductCard({productId, photos, name, category, price, stock, handler}:
         </Link>
       </div>
     </div>
-  )
+  );
 }
 
-export default ProductCard
+export default ProductCard;
